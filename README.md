@@ -1,6 +1,6 @@
 # Interpretative Interfaces
 
-A Python backend for exploring GPT-2's internal representations through mechanistic interpretability. Built with [TransformerLens](https://github.com/TransformerLensOrg/TransformerLens) and Flask, this project provides API endpoints that let a visual frontend inspect how a language model processes text — token by token, layer by layer.
+A Python backend for exploring GPT-2's internal representations through mechanistic interpretability. Built with [TransformerLens](https://github.com/TransformerLensOrg/TransformerLens) and Flask, this project provides API endpoints that let a visual frontend inspect how a language model processes text, token by token, layer by layer.
 
 ## What This Does
 
