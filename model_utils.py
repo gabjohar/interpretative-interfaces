@@ -1,6 +1,9 @@
+print("Importing TransformerLens...")
 from transformer_lens import HookedTransformer
 
+print("Loading model...")
 model = HookedTransformer.from_pretrained("gpt2-small")
+print("Model ready!")
 
 
 def tokenize(text: str) -> list[dict]:
