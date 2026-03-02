@@ -1,0 +1,32 @@
+{
+    "tokens": [
+        {
+            "index": 0,
+            "token_str": "<|endoftext|>"
+        },
+        {
+            "index": 1,
+            "token_str": "The"
+        },
+        {
+            "index": 2,
+            "token_str": " cat"
+        },
+        {
+            "index": 3,
+            "token_str": " sat"
+        },
+        {
+            "index": 4,
+            "token_str": " on"
+        },
+        {
+            "index": 5,
+            "token_str": " the"
+        },
+        {
+            "index": 6,
+            "token_str": " mat"
+        }
+    ]
+}

@@ -1,0 +1,305 @@
+{
+    "predictions_by_layer": [
+        {
+            "layer": 0,
+            "top_tokens": [
+                {
+                    "probability": 0.996323823928833,
+                    "token": " Tower"
+                },
+                {
+                    "probability": 0.002272146288305521,
+                    "token": " Towers"
+                },
+                {
+                    "probability": 0.0007720273570157588,
+                    "token": "tower"
+                },
+                {
+                    "probability": 0.0005148003110662103,
+                    "token": " tower"
+                },
+                {
+                    "probability": 4.9728056183084846e-05,
+                    "token": " towers"
+                }
+            ]
+        },
+        {
+            "layer": 1,
+            "top_tokens": [
+                {
+                    "probability": 0.9746198654174805,
+                    "token": " Tower"
+                },
+                {
+                    "probability": 0.014739887788891792,
+                    "token": " Towers"
+                },
+                {
+                    "probability": 0.005668324418365955,
+                    "token": "fall"
+                },
+                {
+                    "probability": 0.002310947747901082,
+                    "token": " tower"
+                },
+                {
+                    "probability": 0.0014955645892769098,
+                    "token": "tower"
+                }
+            ]
+        },
+        {
+            "layer": 2,
+            "top_tokens": [
+                {
+                    "probability": 0.8446498513221741,
+                    "token": " Tower"
+                },
+                {
+                    "probability": 0.10181014984846115,
+                    "token": " Towers"
+                },
+                {
+                    "probability": 0.014557971619069576,
+                    "token": "tower"
+                },
+                {
+                    "probability": 0.014090677723288536,
+                    "token": "fall"
+                },
+                {
+                    "probability": 0.013200182467699051,
+                    "token": " tower"
+                }
+            ]
+        },
+        {
+            "layer": 3,
+            "top_tokens": [
+                {
+                    "probability": 0.47808513045310974,
+                    "token": " Towers"
+                },
+                {
+                    "probability": 0.47592610120773315,
+                    "token": " Tower"
+                },
+                {
+                    "probability": 0.01679997146129608,
+                    "token": " tower"
+                },
+                {
+                    "probability": 0.012394067831337452,
+                    "token": "tower"
+                },
+                {
+                    "probability": 0.003556586103513837,
+                    "token": "fall"
+                }
+            ]
+        },
+        {
+            "layer": 4,
+            "top_tokens": [
+                {
+                    "probability": 0.4989027678966522,
+                    "token": " Tower"
+                },
+                {
+                    "probability": 0.41290023922920227,
+                    "token": " Towers"
+                },
+                {
+                    "probability": 0.03361408784985542,
+                    "token": " tower"
+                },
+                {
+                    "probability": 0.022406548261642456,
+                    "token": "tower"
+                },
+                {
+                    "probability": 0.006380277220159769,
+                    "token": " Bridge"
+                }
+            ]
+        },
+        {
+            "layer": 5,
+            "top_tokens": [
+                {
+                    "probability": 0.7411592602729797,
+                    "token": " Towers"
+                },
+                {
+                    "probability": 0.17480242252349854,
+                    "token": " Tower"
+                },
+                {
+                    "probability": 0.025778096169233322,
+                    "token": " Bridge"
+                },
+                {
+                    "probability": 0.006813002284616232,
+                    "token": " tower"
+                },
+                {
+                    "probability": 0.004831344820559025,
+                    "token": " Project"
+                }
+            ]
+        },
+        {
+            "layer": 6,
+            "top_tokens": [
+                {
+                    "probability": 0.31754153966903687,
+                    "token": " Tower"
+                },
+                {
+                    "probability": 0.16868716478347778,
+                    "token": " Towers"
+                },
+                {
+                    "probability": 0.10034152120351791,
+                    "token": " Hotel"
+                },
+                {
+                    "probability": 0.08040691167116165,
+                    "token": " Bridge"
+                },
+                {
+                    "probability": 0.03917524218559265,
+                    "token": "'s"
+                }
+            ]
+        },
+        {
+            "layer": 7,
+            "top_tokens": [
+                {
+                    "probability": 0.20205076038837433,
+                    "token": " Tower"
+                },
+                {
+                    "probability": 0.08124520629644394,
+                    "token": " tower"
+                },
+                {
+                    "probability": 0.07946041226387024,
+                    "token": " Hotel"
+                },
+                {
+                    "probability": 0.07620062679052353,
+                    "token": " Bridge"
+                },
+                {
+                    "probability": 0.0613924078643322,
+                    "token": "'s"
+                }
+            ]
+        },
+        {
+            "layer": 8,
+            "top_tokens": [
+                {
+                    "probability": 0.10802167654037476,
+                    "token": " Tower"
+                },
+                {
+                    "probability": 0.10095802694559097,
+                    "token": "'s"
+                },
+                {
+                    "probability": 0.07379952818155289,
+                    "token": " is"
+                },
+                {
+                    "probability": 0.06128297746181488,
+                    "token": " skysc"
+                },
+                {
+                    "probability": 0.05905600264668465,
+                    "token": " Bridge"
+                }
+            ]
+        },
+        {
+            "layer": 9,
+            "top_tokens": [
+                {
+                    "probability": 0.13261759281158447,
+                    "token": " tower"
+                },
+                {
+                    "probability": 0.11814909428358078,
+                    "token": " is"
+                },
+                {
+                    "probability": 0.09950707852840424,
+                    "token": " Tower"
+                },
+                {
+                    "probability": 0.08019857853651047,
+                    "token": " Hotel"
+                },
+                {
+                    "probability": 0.06843255460262299,
+                    "token": " towers"
+                }
+            ]
+        },
+        {
+            "layer": 10,
+            "top_tokens": [
+                {
+                    "probability": 0.2890776991844177,
+                    "token": " is"
+                },
+                {
+                    "probability": 0.11732553690671921,
+                    "token": " has"
+                },
+                {
+                    "probability": 0.09528934210538864,
+                    "token": " in"
+                },
+                {
+                    "probability": 0.07575944066047668,
+                    "token": " was"
+                },
+                {
+                    "probability": 0.059980280697345734,
+                    "token": ","
+                }
+            ]
+        },
+        {
+            "layer": 11,
+            "top_tokens": [
+                {
+                    "probability": 0.13517780601978302,
+                    "token": " is"
+                },
+                {
+                    "probability": 0.09367654472589493,
+                    "token": " in"
+                },
+                {
+                    "probability": 0.07134097814559937,
+                    "token": " was"
+                },
+                {
+                    "probability": 0.068784698843956,
+                    "token": ","
+                },
+                {
+                    "probability": 0.06466829031705856,
+                    "token": " has"
+                }
+            ]
+        }
+    ],
+    "token_index": 5
+}

@@ -1,0 +1,305 @@
+{
+    "predictions_by_layer": [
+        {
+            "layer": 0,
+            "top_tokens": [
+                {
+                    "probability": 0.851416289806366,
+                    "token": " Hart"
+                },
+                {
+                    "probability": 0.11330161243677139,
+                    "token": "mut"
+                },
+                {
+                    "probability": 0.007469803560525179,
+                    "token": "bat"
+                },
+                {
+                    "probability": 0.0046372483484447,
+                    "token": "nell"
+                },
+                {
+                    "probability": 0.003306470811367035,
+                    "token": "mann"
+                }
+            ]
+        },
+        {
+            "layer": 1,
+            "top_tokens": [
+                {
+                    "probability": 0.4587806463241577,
+                    "token": "mut"
+                },
+                {
+                    "probability": 0.2696790397167206,
+                    "token": " Hart"
+                },
+                {
+                    "probability": 0.04505104199051857,
+                    "token": "man"
+                },
+                {
+                    "probability": 0.0343414731323719,
+                    "token": "wick"
+                },
+                {
+                    "probability": 0.03032364509999752,
+                    "token": "wig"
+                }
+            ]
+        },
+        {
+            "layer": 2,
+            "top_tokens": [
+                {
+                    "probability": 0.16531914472579956,
+                    "token": "nell"
+                },
+                {
+                    "probability": 0.1498744636774063,
+                    "token": "man"
+                },
+                {
+                    "probability": 0.14824454486370087,
+                    "token": "mann"
+                },
+                {
+                    "probability": 0.09135067462921143,
+                    "token": "wick"
+                },
+                {
+                    "probability": 0.08993150293827057,
+                    "token": "mut"
+                }
+            ]
+        },
+        {
+            "layer": 3,
+            "top_tokens": [
+                {
+                    "probability": 0.3835877776145935,
+                    "token": "man"
+                },
+                {
+                    "probability": 0.3761225640773773,
+                    "token": "mann"
+                },
+                {
+                    "probability": 0.034276850521564484,
+                    "token": "ley"
+                },
+                {
+                    "probability": 0.01877131126821041,
+                    "token": "wig"
+                },
+                {
+                    "probability": 0.017238177359104156,
+                    "token": "igan"
+                }
+            ]
+        },
+        {
+            "layer": 4,
+            "top_tokens": [
+                {
+                    "probability": 0.5271142721176147,
+                    "token": "mann"
+                },
+                {
+                    "probability": 0.35774457454681396,
+                    "token": "man"
+                },
+                {
+                    "probability": 0.019137758761644363,
+                    "token": "ley"
+                },
+                {
+                    "probability": 0.0158994160592556,
+                    "token": "igan"
+                },
+                {
+                    "probability": 0.007941974326968193,
+                    "token": "ling"
+                }
+            ]
+        },
+        {
+            "layer": 5,
+            "top_tokens": [
+                {
+                    "probability": 0.6069378852844238,
+                    "token": "man"
+                },
+                {
+                    "probability": 0.25804033875465393,
+                    "token": "mann"
+                },
+                {
+                    "probability": 0.021264102309942245,
+                    "token": "wig"
+                },
+                {
+                    "probability": 0.021046532317996025,
+                    "token": "ley"
+                },
+                {
+                    "probability": 0.018219154328107834,
+                    "token": "igan"
+                }
+            ]
+        },
+        {
+            "layer": 6,
+            "top_tokens": [
+                {
+                    "probability": 0.6893606781959534,
+                    "token": "man"
+                },
+                {
+                    "probability": 0.1362869143486023,
+                    "token": "mann"
+                },
+                {
+                    "probability": 0.07229161262512207,
+                    "token": "ley"
+                },
+                {
+                    "probability": 0.023325148969888687,
+                    "token": "wig"
+                },
+                {
+                    "probability": 0.012509532272815704,
+                    "token": "igan"
+                }
+            ]
+        },
+        {
+            "layer": 7,
+            "top_tokens": [
+                {
+                    "probability": 0.428860604763031,
+                    "token": "man"
+                },
+                {
+                    "probability": 0.2641080319881439,
+                    "token": "mann"
+                },
+                {
+                    "probability": 0.1440349519252777,
+                    "token": "ley"
+                },
+                {
+                    "probability": 0.044216424226760864,
+                    "token": "wig"
+                },
+                {
+                    "probability": 0.027356278151273727,
+                    "token": "igan"
+                }
+            ]
+        },
+        {
+            "layer": 8,
+            "top_tokens": [
+                {
+                    "probability": 0.3501712679862976,
+                    "token": "ley"
+                },
+                {
+                    "probability": 0.2604674994945526,
+                    "token": "mann"
+                },
+                {
+                    "probability": 0.16151802241802216,
+                    "token": "man"
+                },
+                {
+                    "probability": 0.0640263706445694,
+                    "token": "wig"
+                },
+                {
+                    "probability": 0.038922425359487534,
+                    "token": "igan"
+                }
+            ]
+        },
+        {
+            "layer": 9,
+            "top_tokens": [
+                {
+                    "probability": 0.577475368976593,
+                    "token": "ley"
+                },
+                {
+                    "probability": 0.14398643374443054,
+                    "token": "mann"
+                },
+                {
+                    "probability": 0.07866709679365158,
+                    "token": "man"
+                },
+                {
+                    "probability": 0.043455373495817184,
+                    "token": "igan"
+                },
+                {
+                    "probability": 0.022111423313617706,
+                    "token": "nell"
+                }
+            ]
+        },
+        {
+            "layer": 10,
+            "top_tokens": [
+                {
+                    "probability": 0.4228723347187042,
+                    "token": "ley"
+                },
+                {
+                    "probability": 0.17865149676799774,
+                    "token": "mann"
+                },
+                {
+                    "probability": 0.1711418777704239,
+                    "token": "man"
+                },
+                {
+                    "probability": 0.02254173718392849,
+                    "token": "nell"
+                },
+                {
+                    "probability": 0.01829609088599682,
+                    "token": "z"
+                }
+            ]
+        },
+        {
+            "layer": 11,
+            "top_tokens": [
+                {
+                    "probability": 0.18748703598976135,
+                    "token": "ley"
+                },
+                {
+                    "probability": 0.13393165171146393,
+                    "token": "man"
+                },
+                {
+                    "probability": 0.07995418459177017,
+                    "token": ","
+                },
+                {
+                    "probability": 0.06195249408483505,
+                    "token": "mann"
+                },
+                {
+                    "probability": 0.04482940584421158,
+                    "token": "."
+                }
+            ]
+        }
+    ],
+    "token_index": 5
+}

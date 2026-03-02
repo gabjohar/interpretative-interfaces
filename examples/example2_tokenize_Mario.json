@@ -1,0 +1,40 @@
+{
+    "tokens": [
+        {
+            "index": 0,
+            "token_str": "<|endoftext|>"
+        },
+        {
+            "index": 1,
+            "token_str": "Her"
+        },
+        {
+            "index": 2,
+            "token_str": " name"
+        },
+        {
+            "index": 3,
+            "token_str": " was"
+        },
+        {
+            "index": 4,
+            "token_str": " Alex"
+        },
+        {
+            "index": 5,
+            "token_str": " Hart"
+        },
+        {
+            "index": 6,
+            "token_str": "."
+        },
+        {
+            "index": 7,
+            "token_str": " Tomorrow"
+        },
+        {
+            "index": 8,
+            "token_str": " Alex"
+        }
+    ]
+}

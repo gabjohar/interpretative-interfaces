@@ -1,0 +1,56 @@
+{
+    "tokens": [
+        {
+            "index": 0,
+            "token_str": "<|endoftext|>"
+        },
+        {
+            "index": 1,
+            "token_str": "The"
+        },
+        {
+            "index": 2,
+            "token_str": " E"
+        },
+        {
+            "index": 3,
+            "token_str": "iff"
+        },
+        {
+            "index": 4,
+            "token_str": "el"
+        },
+        {
+            "index": 5,
+            "token_str": " Tower"
+        },
+        {
+            "index": 6,
+            "token_str": " is"
+        },
+        {
+            "index": 7,
+            "token_str": " located"
+        },
+        {
+            "index": 8,
+            "token_str": " in"
+        },
+        {
+            "index": 9,
+            "token_str": " the"
+        },
+        {
+            "index": 10,
+            "token_str": " c"
+        },
+        {
+            "index": 11,
+            "token_str": "iy"
+        },
+        {
+            "index": 12,
+            "token_str": " of"
+        }
+    ]
+}

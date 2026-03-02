@@ -1,0 +1,305 @@
+{
+    "predictions_by_layer": [
+        {
+            "layer": 0,
+            "top_tokens": [
+                {
+                    "probability": 0.6113502979278564,
+                    "token": " same"
+                },
+                {
+                    "probability": 0.03541266918182373,
+                    "token": " world"
+                },
+                {
+                    "probability": 0.035045456141233444,
+                    "token": " first"
+                },
+                {
+                    "probability": 0.021893315017223358,
+                    "token": " last"
+                },
+                {
+                    "probability": 0.020062632858753204,
+                    "token": " latter"
+                }
+            ]
+        },
+        {
+            "layer": 1,
+            "top_tokens": [
+                {
+                    "probability": 0.8587528467178345,
+                    "token": " same"
+                },
+                {
+                    "probability": 0.024089209735393524,
+                    "token": " world"
+                },
+                {
+                    "probability": 0.015996847301721573,
+                    "token": " first"
+                },
+                {
+                    "probability": 0.01407264731824398,
+                    "token": " last"
+                },
+                {
+                    "probability": 0.006891019642353058,
+                    "token": " following"
+                }
+            ]
+        },
+        {
+            "layer": 2,
+            "top_tokens": [
+                {
+                    "probability": 0.9402775168418884,
+                    "token": " same"
+                },
+                {
+                    "probability": 0.012105995789170265,
+                    "token": " world"
+                },
+                {
+                    "probability": 0.007658988703042269,
+                    "token": " last"
+                },
+                {
+                    "probability": 0.0049742828123271465,
+                    "token": " first"
+                },
+                {
+                    "probability": 0.0044518993236124516,
+                    "token": " following"
+                }
+            ]
+        },
+        {
+            "layer": 3,
+            "top_tokens": [
+                {
+                    "probability": 0.9292940497398376,
+                    "token": " same"
+                },
+                {
+                    "probability": 0.008700311183929443,
+                    "token": " latest"
+                },
+                {
+                    "probability": 0.007423751521855593,
+                    "token": " last"
+                },
+                {
+                    "probability": 0.0057099186815321445,
+                    "token": " opposite"
+                },
+                {
+                    "probability": 0.005468682385981083,
+                    "token": " first"
+                }
+            ]
+        },
+        {
+            "layer": 4,
+            "top_tokens": [
+                {
+                    "probability": 0.8825284838676453,
+                    "token": " same"
+                },
+                {
+                    "probability": 0.012823322787880898,
+                    "token": " top"
+                },
+                {
+                    "probability": 0.006958182901144028,
+                    "token": " next"
+                },
+                {
+                    "probability": 0.006602441892027855,
+                    "token": " table"
+                },
+                {
+                    "probability": 0.0065687913447618484,
+                    "token": " opposite"
+                }
+            ]
+        },
+        {
+            "layer": 5,
+            "top_tokens": [
+                {
+                    "probability": 0.7768006920814514,
+                    "token": " same"
+                },
+                {
+                    "probability": 0.031707052141427994,
+                    "token": " opposite"
+                },
+                {
+                    "probability": 0.02176346257328987,
+                    "token": " top"
+                },
+                {
+                    "probability": 0.021500887349247932,
+                    "token": " table"
+                },
+                {
+                    "probability": 0.016695668920874596,
+                    "token": " floor"
+                }
+            ]
+        },
+        {
+            "layer": 6,
+            "top_tokens": [
+                {
+                    "probability": 0.5792149901390076,
+                    "token": " same"
+                },
+                {
+                    "probability": 0.08471681922674179,
+                    "token": " shoulders"
+                },
+                {
+                    "probability": 0.05197952315211296,
+                    "token": " table"
+                },
+                {
+                    "probability": 0.0395178459584713,
+                    "token": " floor"
+                },
+                {
+                    "probability": 0.03620804846286774,
+                    "token": " opposite"
+                }
+            ]
+        },
+        {
+            "layer": 7,
+            "top_tokens": [
+                {
+                    "probability": 0.1853853464126587,
+                    "token": " floor"
+                },
+                {
+                    "probability": 0.10302730649709702,
+                    "token": " same"
+                },
+                {
+                    "probability": 0.10227859020233154,
+                    "token": " edge"
+                },
+                {
+                    "probability": 0.09764071553945541,
+                    "token": " table"
+                },
+                {
+                    "probability": 0.05367789417505264,
+                    "token": " shoulders"
+                }
+            ]
+        },
+        {
+            "layer": 8,
+            "top_tokens": [
+                {
+                    "probability": 0.2830776572227478,
+                    "token": " floor"
+                },
+                {
+                    "probability": 0.1605178564786911,
+                    "token": " table"
+                },
+                {
+                    "probability": 0.13848276436328888,
+                    "token": " ground"
+                },
+                {
+                    "probability": 0.10820487886667252,
+                    "token": " edge"
+                },
+                {
+                    "probability": 0.059043221175670624,
+                    "token": " sidelines"
+                }
+            ]
+        },
+        {
+            "layer": 9,
+            "top_tokens": [
+                {
+                    "probability": 0.46520158648490906,
+                    "token": " floor"
+                },
+                {
+                    "probability": 0.1217501312494278,
+                    "token": " bed"
+                },
+                {
+                    "probability": 0.07775542885065079,
+                    "token": " sofa"
+                },
+                {
+                    "probability": 0.057702645659446716,
+                    "token": " roof"
+                },
+                {
+                    "probability": 0.048995234072208405,
+                    "token": " porch"
+                }
+            ]
+        },
+        {
+            "layer": 10,
+            "top_tokens": [
+                {
+                    "probability": 0.36004161834716797,
+                    "token": " floor"
+                },
+                {
+                    "probability": 0.1251811534166336,
+                    "token": " bed"
+                },
+                {
+                    "probability": 0.11415410041809082,
+                    "token": " sofa"
+                },
+                {
+                    "probability": 0.0700511783361435,
+                    "token": " couch"
+                },
+                {
+                    "probability": 0.0496634915471077,
+                    "token": " table"
+                }
+            ]
+        },
+        {
+            "layer": 11,
+            "top_tokens": [
+                {
+                    "probability": 0.08664479851722717,
+                    "token": " floor"
+                },
+                {
+                    "probability": 0.06292803585529327,
+                    "token": " bed"
+                },
+                {
+                    "probability": 0.051642339676618576,
+                    "token": " couch"
+                },
+                {
+                    "probability": 0.042492061853408813,
+                    "token": " ground"
+                },
+                {
+                    "probability": 0.04152567312121391,
+                    "token": " edge"
+                }
+            ]
+        }
+    ],
+    "token_index": 5
+}
