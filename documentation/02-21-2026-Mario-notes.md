@@ -15,5 +15,5 @@
 ---
 ## Resources 
  - [Transformer Explainer](https://poloclub.github.io/transformer-explainer/)
- - [how to learn Tansfromer-mechanistic-interpretablity in 50 lines or less](htt    ps://www.alignmentforum.org/posts/hnzHrdqn3nrjveayv/how-to-transformer-mechanistic-interpretability-in-50-lines)
+ - [how to learn Tansfromer-mechanistic-interpretablity in 50 lines or less](https://www.alignmentforum.org/posts/hnzHrdqn3nrjveayv/how-to-transformer-mechanistic-interpretability-in-50-lines)
 
