@@ -105,7 +105,7 @@ def get_attention_patterns(text: str, layer: int, head: int | None=None) -> dict
     
     return {
             "tokens": tokens_strs,
-            "attention": attention_data,
+            "attention_matrix": attention_data,
             "n_heads": model.cfg.n_heads,
             "n_layers": model.cfg.n_layers,
             }
