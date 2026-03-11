@@ -27,12 +27,13 @@ Break input text into GPT-2 subword tokens.
 ```json
 {
   "tokens": [
-    { "index": 0, "token_str": "The", "token_id": 464 },
-    { "index": 1, "token_str": " cat", "token_id": 3797 },
-    { "index": 2, "token_str": " sat", "token_id": 3332 },
-    { "index": 3, "token_str": " on", "token_id": 319 },
-    { "index": 4, "token_str": " the", "token_id": 262 },
-    { "index": 5, "token_str": " mat", "token_id": 2603 }
+    { "index": 0, "token_id": 50256, "token_str": "<|endoftext|>" },
+    { "index": 1, "token_id": 464, "token_str": "The" },
+    { "index": 2, "token_id": 3797, "token_str": " cat" },
+    { "index": 3, "token_id": 3332, "token_str": " sat" },
+    { "index": 4, "token_id": 319, "token_str": " on" },
+    { "index": 5, "token_id": 262, "token_str": " the" },
+    { "index": 6, "token_id": 2603, "token_str": " mat" }
   ]
 }
 ```
@@ -44,12 +45,13 @@ Break input text into GPT-2 subword tokens.
 | `tokens[].token_str` | string | The string representation of the token (may include leading spaces) |
 | `tokens[].token_id`  | int    | The token's ID in GPT-2's vocabulary (0–50256)  |
 
+
 ### Notes
 
 - GPT-2 uses byte-pair encoding (BPE). Words may be split into subword tokens (e.g. `"understanding"` → `[" understanding"]` or `[" under", "standing"]`).
 - Leading spaces are part of the token string — this is normal BPE behavior.
 - GPT-2's vocabulary size is 50,257 tokens.
-
+- the "<|endoftext|>" token is a special token that's included in its vocabulary, that signals the beginning of a generation.
 ---
 
 ## `POST /trace`
@@ -152,25 +154,32 @@ Get the attention pattern matrix for a specific layer and attention head. Shows 
 
 ### Response
 
+
 ```json
 {
-  "tokens": ["The", " cat", " sat", " on", " the", " mat"],
   "attention_matrix": [
-    [1.00, 0.00, 0.00, 0.00, 0.00, 0.00],
-    [0.15, 0.45, 0.20, 0.08, 0.07, 0.05],
-    [0.10, 0.25, 0.35, 0.12, 0.10, 0.08],
-    [0.08, 0.12, 0.18, 0.42, 0.12, 0.08],
-    [0.05, 0.08, 0.10, 0.15, 0.52, 0.10],
-    [0.03, 0.30, 0.05, 0.07, 0.15, 0.40]
-  ]
+    [1.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00],
+    [0.94, 0.06, 0.00, 0.00, 0.00, 0.00, 0.00],
+    [0.85, 0.12, 0.03, 0.00, 0.00, 0.00, 0.00],
+    [0.42, 0.21, 0.09, 0.29, 0.00, 0.00, 0.00],
+    [0.55, 0.13, 0.09, 0.20, 0.03, 0.00, 0.00],
+    [0.53, 0.13, 0.11, 0.16, 0.04, 0.03, 0.00],
+    [0.44, 0.12, 0.07, 0.19, 0.09, 0.08, 0.02]
+  ],
+  "n_heads": 12,
+  "n_layers": 12,
+  "tokens": ["<|endoftext|>", "The", " cat", " sat", " on", " the", " mat"]
 }
 ```
 
 | Field                       | Type       | Description                                           |
 |-----------------------------|------------|-------------------------------------------------------|
-| `tokens`                    | string[]   | Token strings in sequence order                       |
 | `attention_matrix`          | float[][]  | Square matrix of shape `[n_tokens, n_tokens]`         |
 | `attention_matrix[i][j]`    | float      | How much token `i` attends to token `j` (0.0–1.0)    |
+| `n_heads`                   | int        | Number of attention heads in the model (12 for GPT-2 small) |
+| `n_layers`                  | int        | Number of layers in the model (12 for GPT-2 small)    |
+| `tokens`                    | string[]   | Token strings in sequence order                       |
+
 
 ### Notes
 

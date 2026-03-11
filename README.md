@@ -57,7 +57,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
-The server starts on `http://localhost:5000`. The first run will download GPT-2 small (~500 MB).
+The server starts on `http://localhost:5001`. The first run will download GPT-2 small (~500 MB).
 
 ## API Endpoints
 
@@ -66,7 +66,7 @@ The server starts on `http://localhost:5000`. The first run will download GPT-2 
 Break text into GPT-2 tokens.
 
 ```bash
-curl -X POST http://localhost:5000/tokenize \
+curl -X POST http://localhost:5001/tokenize \
   -H "Content-Type: application/json" \
   -d '{"text": "The cat sat on the mat"}'
 ```
@@ -76,7 +76,7 @@ curl -X POST http://localhost:5000/tokenize \
 Get 2D trajectory of selected tokens through all 12 layers (PCA-reduced).
 
 ```bash
-curl -X POST http://localhost:5000/trace \
+curl -X POST http://localhost:5001/trace \
   -H "Content-Type: application/json" \
   -d '{"text": "The cat sat on the mat", "token_indices": [1, 4]}'
 ```
@@ -86,7 +86,7 @@ curl -X POST http://localhost:5000/trace \
 Get the attention matrix for a specific layer and head.
 
 ```bash
-curl -X POST http://localhost:5000/attention \
+curl -X POST http://localhost:5001/attention \
   -H "Content-Type: application/json" \
   -d '{"text": "The cat sat on the mat", "layer": 5, "head": 3}'
 ```
@@ -96,7 +96,7 @@ curl -X POST http://localhost:5000/attention \
 Apply the logit lens: see top-5 predicted tokens at each layer for a given position.
 
 ```bash
-curl -X POST http://localhost:5000/predict \
+curl -X POST http://localhost:5001/predict \
   -H "Content-Type: application/json" \
   -d '{"text": "The cat sat on the mat", "token_index": 5}'
 ```
