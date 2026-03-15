@@ -1,0 +1,174 @@
+:root {
+
+/* ================= GLOBAL COLORS ================= */
+
+--color-black: #000000;
+--color-white: #ffffff;
+
+--color-blue-main: #81C1FD;
+--color-blue-light: #DCEEFF;
+
+
+/* ================= BACKGROUND ================= */
+
+--color-background: #ffffff;
+
+
+/* ================= GRID ================= */
+
+--grid-size: 32px;
+
+--color-grid-cell: #ffffff;
+--color-grid-border: #DCEEFF;
+--color-grid-hover: #81C1FD;
+
+
+/* ================= PLANE ================= */
+
+--color-plane: rgba(255,255,255,0.20);
+
+--plane-border-width: 3px;
+--color-plane-border: #000000;
+
+
+/* ================= PLANE LABEL ================= */
+
+--plane-label-color: #000000;
+
+--plane-label-font-family: "Lalezar";
+--plane-label-font-size: 45px;
+--plane-label-font-weight: 400;
+--plane-label-line-height: 40px;
+
+
+/* ================= TRAJECTORY DOT ================= */
+
+--trajectory-dot-size: 20px;
+--trajectory-dot-color: #000000;
+
+
+/* ================= TITLE ================= */
+
+--title-color: #81C1FD;
+
+--title-font-family: "Koulen";
+--title-font-size: 130px;
+--title-font-weight: 400;
+
+--title-stroke-width: 6px;
+--title-stroke-color: #000000;
+
+
+/* ================= ANNOTATION TEXT ================= */
+
+--annotation-color: #000000;
+
+--annotation-font-family: "Lalezar";
+--annotation-font-size: 25px;
+--annotation-font-weight: 400;
+--annotation-line-height: 40px;
+
+--annotation-stroke-width: 3px;
+--annotation-stroke-color: #ffffff;
+
+
+/* ================= BUTTON ================= */
+
+--button-text-color: #000000;
+
+--button-font-family: "Audiowide";
+--button-font-size: 45px;
+--button-font-weight: 400;
+--button-line-height: normal;
+
+--button-padding: 10px 30px;
+
+--button-radius: 20px;
+
+--button-border-width: 6px;
+--button-border-color: #000000;
+
+--button-bg: #ffffff;
+--button-hover-bg: #81C1FD;
+
+
+/* ================= TOKEN TEXT ================= */
+
+--token-text-color: #000000;
+
+--token-font-family: "Lalezar";
+--token-font-size: 45px;
+--token-font-weight: 400;
+--token-line-height: 40px;
+
+--token-text-stroke-width: 3px;
+--token-text-stroke-color: #ffffff;
+
+
+/* ================= TOKEN CARD ================= */
+
+--token-padding: 30px 20px 20px 20px;
+
+--token-radius: 10px;
+
+--token-border-width: 5px;
+--token-border-color: #000000;
+
+--token-bg: #ffffff;
+
+
+/* REQUIRED BY PROJECT */
+
+--color-token-selected: #DCEEFF;
+
+
+/* ================= SMALL TOKEN TEXT ================= */
+
+--token-small-text-color: #000000;
+
+--token-small-font-family: "Lalezar";
+--token-small-font-size: 25px;
+--token-small-font-weight: 400;
+--token-small-line-height: 40px;
+
+
+/* ================= SMALL TOKEN STYLE ================= */
+
+--token-small-padding: 10px 10px 5px 10px;
+
+--token-small-radius: 10px;
+
+--token-small-border-width: 5px;
+--token-small-border-color: #000000;
+
+--token-small-bg: #ffffff;
+
+
+/* ================= ATTENTION ================= */
+
+--color-attention-max: #3A7BD5;
+
+
+/* ================= TOKEN COLORS ================= */
+
+--color-token-1: #DCEEFF;
+--color-token-2: #FFD9D9;
+--color-token-3: #E8FFE6;
+
+
+/* ================= TYPOGRAPHY BASE ================= */
+
+--font-family: "Lalezar", sans-serif;
+
+--font-size-label: 25px;
+--font-size-chip: 20px;
+
+--font-weight-bold: 700;
+
+
+/* ================= CHIP ================= */
+
+--chip-border-radius: 10px;
+--chip-padding: 10px;
+
+}
