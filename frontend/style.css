@@ -1,0 +1,48 @@
+
+
+.screen{
+	display: none;
+}
+
+.screen.active{
+	display: block;
+}
+
+.token-chip {
+  display: inline-block;
+  cursor: pointer;
+  padding: var(--chip-padding);
+  border-radius: var(--chip-border-radius);
+  border: var(--token-border-width) solid var(--token-border-color);
+  background: var(--token-bg);
+  font-family: var(--token-font-family);
+  font-size: var(--font-size-chip);
+  margin: 4px;
+}
+
+.token-chip.selected {
+  background: var(--color-token-selected);
+}
+
+.token-chip.token-bos {
+  opacity: 0.4;
+  cursor: default;
+}
+ 
+button {
+  font-family: var(--button-font-family);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  color: var(--button-text-color);
+  background: var(--button-bg);
+  border: var(--button-border-width) solid var(--button-border-color);
+  border-radius: var(--button-radius);
+  padding: var(--button-padding);
+  cursor: pointer;
+  line-height: var(--button-line-height);
+}
+ 
+button:hover {
+  background: var(--button-hover-bg);
+}
+ 
