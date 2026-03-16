@@ -11,7 +11,7 @@
 // Draw trajectory dots based on x,y positions
 // =======================================================
 
-export function renderDots(layer, positions, tokenColors) {
+function renderDots(layer, positions, tokenColors) {
 
   const content = document.getElementById(`plane-content-${layer}`);
   if (!content) return;
@@ -27,7 +27,7 @@ export function renderDots(layer, positions, tokenColors) {
 
     // convert normalized coordinates to percentage
     dot.style.left = `${x * 100}%`;
-    dot.style.top = `${y * 100}%`;
+    dot.style.bottom = `${y * 100}%`;
 
     // token color
     if (tokenColors && tokenColors[tokenIdx]) {
@@ -51,7 +51,7 @@ export function renderDots(layer, positions, tokenColors) {
 // Render attention heatmap grid
 // =======================================================
 
-export function renderHeatmap(layer, matrix) {
+function renderHeatmap(layer, matrix) {
 
   const content = document.getElementById(`plane-content-${layer}`);
   if (!content) return;

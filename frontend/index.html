@@ -1,25 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>interpretative-interfaces</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Audiowide&family=Koulen&family=Lalezar&display=swap">
-    <link rel="stylesheet" href= "tokens.css">
-    <link rel="stylesheet" href="style.css">
-</head>    
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Interpretative Interface</title>
 
-	<div id="screen-input" class="screen active">
-		<textarea id = "text-input">The cat sat on the mat</textarea>
-		<button id = "tokenize-btn">Tokenize</button>	
-	</div>
-    <div id="screen-tokens" class="screen"> </div>
-    <div id="screen-trace" class="screen"></div>
-    <div id="screen-attention" class="screen"></div>
-    <div id="screen-predict" class="screen"></div>
-    
-    <script src="app.js"></script>
-</body>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Audiowide&family=Koulen&family=Lalezar&display=swap">
+        <link rel="stylesheet" href="tokens.css">
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <!-- screen-input -->
+        <div id="screen-input" class="screen active">
+            <!-- text input -->
+            <textarea id="text-input">The cat sat on the mat</textarea>
+            <button id="tokenize-button" onclick="handleTokenizeClick()">Tokenize</button>
+        </div>
+
+        <!-- screen-tokens -->
+        <div id="screen-tokens" class="screen">
+            <!-- token chips -->
+            <div id="token-chip-container"></div>
+            <button id="attention-button" onclick="handleAllLayersAttention()">Attention View</button>
+            <button id="trace-button" onclick="handleTraceClick()" style="display: none;">Trace</button>
+            <button id="predict-button" onclick="handlePredictClick()" style="display: none;">Predict</button>
+            <button id="back-button" onclick="showScreen('screen-input')">Back to input</button>
+        </div>
+
+        <!-- screen-trace -->
+        <div id="screen-trace" class="screen">
+            <!-- stacked planes: trajectory -->
+            <button class="back-token-button" onclick="showScreen('screen-tokens')">Back to tokens</button>
+        </div>
+
+        <div id="screen-attention" class="screen">
+            <!-- stacked planes: attention -->
+            <button class="back-token-button" onclick="showScreen('screen-tokens')">Back to tokens</button>
+        </div>
+
+        <!-- screen-predict -->
+        <div id="screen-predict" class="screen">
+            <!-- logit lens -->
+            <button class="back-token-button" onclick="showScreen('screen-tokens')">Back to tokens</button>
+            
+            <div class="predict-layout">
+                <div class="predict-title">What is the next token?</div>
+                <div id="predict-container"></div>
+
+                <div id="predict-tokens-row"></div>
+
+                <div class="layer-selector">
+                    <span class="layer-label">layer</span>
+                    <div class="layer-chips" id="predict-layer-chips"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="shared-planes-container" style="display: none;">
+            <div class="plane"><div class="plane-label">0</div><div class="plane-content" id="plane-content-0"></div></div>
+            <div class="plane"><div class="plane-label">1</div><div class="plane-content" id="plane-content-1"></div></div>
+            <div class="plane"><div class="plane-label">2</div><div class="plane-content" id="plane-content-2"></div></div>
+            <div class="plane"><div class="plane-label">3</div><div class="plane-content" id="plane-content-3"></div></div>
+            <div class="plane"><div class="plane-label">4</div><div class="plane-content" id="plane-content-4"></div></div>
+            <div class="plane"><div class="plane-label">5</div><div class="plane-content" id="plane-content-5"></div></div>
+            <div class="plane"><div class="plane-label">6</div><div class="plane-content" id="plane-content-6"></div></div>
+            <div class="plane"><div class="plane-label">7</div><div class="plane-content" id="plane-content-7"></div></div>
+            <div class="plane"><div class="plane-label">8</div><div class="plane-content" id="plane-content-8"></div></div>
+            <div class="plane"><div class="plane-label">9</div><div class="plane-content" id="plane-content-9"></div></div>
+            <div class="plane"><div class="plane-label">10</div><div class="plane-content" id="plane-content-10"></div></div>
+            <div class="plane"><div class="plane-label">11</div><div class="plane-content" id="plane-content-11"></div></div>
+        </div>
+
+        <script src="renderers.js"></script>
+
+        <!-- Switch to app_Steven.js for now -->
+        <script src="app_Steven.js"></script>
+    </body>
+</html>
+
