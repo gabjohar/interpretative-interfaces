@@ -11,7 +11,8 @@
 To run the interface, use either of these methods:
 
 **Method 1**
-- Simply double-click the `index.html` file in your folder
+1. Open a terminal in the backend folder and run `python app.py`.
+2. Simply double-click the `index.html` file in your folder
 
 **Method 2**
 1. Open a terminal in the backend folder and run `python app.py`.
