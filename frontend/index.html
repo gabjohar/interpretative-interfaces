@@ -13,8 +13,22 @@
     </head>
 
     <body>
+        <!-- screen-onboarding -->
+        <div id="screen-onboarding" class="screen active">
+            <div class="onboarding-title">INSIDE THE MODEL</div>
+            <div class="onboarding-text">
+                <p>Every word is a point in a 768-dimensional space.</p>
+                <p>Every layer reshapes its meaning.</p>
+                <p>You are about to trace how language transforms inside a neural network.</p>
+                <p>Watch how representations move.</p>
+                <p>See how predictions sharpen.</p>
+                <p>Discover how attention weaves connections.</p>
+            </div>
+            <button id="begin-button" onclick="showScreen('screen-input')">Begin the journey</button>
+        </div>
+
         <!-- screen-input -->
-        <div id="screen-input" class="screen active">
+        <div id="screen-input" class="screen">
             <!-- text input -->
             <textarea id="text-input">The cat sat on the mat</textarea>
             <button id="tokenize-button" onclick="handleTokenizeClick()">Tokenize</button>
@@ -23,11 +37,14 @@
         <!-- screen-tokens -->
         <div id="screen-tokens" class="screen">
             <!-- token chips -->
+            <button class="back-token-button" onclick="showScreen('screen-input')">Back to input</button>
+
             <div id="token-chip-container"></div>
-            <button id="attention-button" onclick="handleAllLayersAttention()">Attention View</button>
-            <button id="trace-button" onclick="handleTraceClick()" style="display: none;">Trace</button>
-            <button id="predict-button" onclick="handlePredictClick()" style="display: none;">Predict</button>
-            <button id="back-button" onclick="showScreen('screen-input')">Back to input</button>
+                <div class="action-buttons-container">
+                    <button id="attention-button" onclick="handleAllLayersAttention()">Attention</button>
+                    <button id="trace-button" onclick="handleTraceClick()" style="display: none;">Trace</button>
+                    <button id="predict-button" onclick="handlePredictClick()" style="display: none;">Prediction</button>
+                </div>
         </div>
 
         <!-- screen-trace -->
@@ -39,6 +56,25 @@
         <div id="screen-attention" class="screen">
             <!-- stacked planes: attention -->
             <button class="back-token-button" onclick="showScreen('screen-tokens')">Back to tokens</button>
+
+            <div id="single-heatmap-view" style="display: none; margin-top: 40px;">
+                <div class="layer-selector" style="justify-content: center; margin-bottom: 20px;">
+                    <span class="layer-label">layer</span>
+                    <div class="layer-chips" id="attention-layer-chips"></div>
+                </div>
+
+                <div class="layer-selector" style="justify-content: center; margin-bottom: 40px;">
+                    <span class="layer-label">head</span>
+                    <div class="layer-chips" id="attention-head-chips"></div>
+                </div>
+                
+                <div id="single-heatmap-box" style="margin: 0 auto;"></div>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 100px; margin-top: 30px;">
+                <button onclick="handleMultiLayersAttention()" style="font-size: 25px; padding: 10px 20px;" >Multi-layer View</button>
+                <button onclick="handleSingleHeadAttention()" style="font-size: 25px; padding: 10px 20px;">Multi-Head View</button>
+            </div>
         </div>
 
         <!-- screen-predict -->
@@ -73,6 +109,33 @@
             <div class="plane"><div class="plane-label">10</div><div class="plane-content" id="plane-content-10"></div></div>
             <div class="plane"><div class="plane-label">11</div><div class="plane-content" id="plane-content-11"></div></div>
         </div>
+
+        <div id="single-plane-view" style="display: none; padding-top: 50px;">
+            <button class="back-token-button" onclick="handleClosePlaneClick()">Back to Trace</button>
+            
+            <div class="layer-selector" style="justify-content: center; margin-bottom: 30px;">
+                <span class="layer-label">layer</span>
+                <div class="layer-chips" id="single-plane-layer-chips"></div>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 80px; align-items: flex-start; margin-top: 150px">
+    
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                    <div id="single-plane-box">
+                        <div id="single-plane-dots-container" style="position: absolute; inset: 15px;"></div>
+                    </div>
+                    <p style="font-size: 30px; margin: 0;">Selected tokens:</p>
+                    <div id="single-plane-tokens-row"></div>
+                </div>
+
+                <div class="predict-layout" style="margin-top: 0; align-items: flex-start;">
+                    <div class="predict-title" style="margin-bottom: 10px; width: 350px;">What is the next token?</div>
+                    <div id="single-plane-predict-container" style="width: 350px; display: flex; flex-direction: column; gap: 15px;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="trace-tokens-row" style="display: none;"></div>
 
         <script src="renderers.js"></script>
 

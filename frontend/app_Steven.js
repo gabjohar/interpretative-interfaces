@@ -7,6 +7,9 @@ let selectedIndices = new Set();
 let currentPredictData = null;
 let currentPredictLayer = 11;  // Default
 let currentPredictTokenIndex = null;
+let currentTraceData = null;
+let currentAttnLayer = 0;
+let currentAttnHead = 0;
 
 // =======================================================
 //                    Fetch functions                    =
@@ -122,7 +125,9 @@ function normalizeCoords(trajectories) {
         norm[idx] = points.map(p => ({
             layer: p.layer,
             x: maxX === minX ? 0.5 : (p.x - minX) / (maxX - minX),
-            y: maxY === minY ? 0.5 : (p.y - minY) / (maxY - minY)
+            y: maxY === minY ? 0.5 : (p.y - minY) / (maxY - minY),
+            rawX: p.x,
+            rawY: p.y
         }));
     }
     
@@ -151,6 +156,7 @@ async function handleTokenizeClick() {
 
     const data = await tokenize(currentText);
     currentTokens = data.tokens;
+    selectedIndices.clear();
 
     renderTokenChips(currentTokens);
     showScreen("screen-tokens");
@@ -162,19 +168,10 @@ async function handleTraceClick() {
         return;
     }
 
-    const data = await trace(currentText, [...selectedIndices]);
+    currentTraceData = await trace(currentText, [...selectedIndices]);
 
-    renderTrajectory(data);
+    renderTrajectory(currentTraceData);
     showScreen("screen-trace");
-}
-
-
-async function handleSingleHeadAttention(currentLayer, selectedHead) {
-
-    const data = await attention(currentText, currentLayer, selectedHead);
-
-    renderHeatmap(currentLayer, data.attention_matrix);
-    showScreen("screen-attention");
 }
 
 
@@ -195,6 +192,35 @@ async function handleAllLayersAttention() {
 }
 
 
+async function handleMultiLayersAttention() {
+    document.getElementById("single-heatmap-view").style.display = "none";
+    document.getElementById("shared-planes-container").style.display = "block";
+    await handleAllLayersAttention();
+}
+
+
+async function handleSingleHeadAttention() {
+    document.getElementById("shared-planes-container").style.display = "none";
+    document.getElementById("single-heatmap-view").style.display = "block";
+    await renderSingleHeadUI();
+}
+
+
+async function handleSinglePlaneClick(layer) {
+    currentPredictLayer = layer;
+    togglePlaneView(true);
+    
+    const tokenIndex = Array.from(selectedIndices)[0];
+    if (currentPredictTokenIndex !== tokenIndex) {
+        currentPredictData = await predict(currentText, tokenIndex);
+        currentPredictTokenIndex = tokenIndex;
+    }
+    renderSinglePlaneUI();
+}
+
+const handleClosePlaneClick = () => togglePlaneView(false);
+
+
 async function handlePredictClick() {
     if (selectedIndices.size === 0) {
         return;
@@ -212,41 +238,60 @@ async function handlePredictClick() {
 //                     Render functions                  =
 // =======================================================
 
-function renderTokenChips(tokens) {
-    const container = document.getElementById("token-chip-container");
+function renderTokenChips(tokens, containerId = "token-chip-container") {
+    const container = document.getElementById(containerId);
+
+    if (!container) {
+        return;
+    }
+
     const traceButton = document.getElementById("trace-button");
     const predictButton = document.getElementById("predict-button");
 
     container.innerHTML = "";
-    selectedIndices.clear();
-    traceButton.style.display = "none";
-    predictButton.style.display = "none";
 
     tokens.forEach((token) => {
         const chip = document.createElement("span");
         chip.className = "token-chip";
         chip.textContent = token.token_str;
+        chip.dataset.index = token.index;
 
         if (token.token_str === "<|endoftext|>") {
             chip.classList.add("token-bos");
         } else {
-            chip.addEventListener("click", function () {
+
+            if (selectedIndices.has(token.index)) {
+                chip.classList.add("selected");
+            }
+
+            chip.addEventListener("click", async function () {
                 if (selectedIndices.has(token.index)) {
                     selectedIndices.delete(token.index);
-                    chip.classList.remove("selected");
 
                 } else if (selectedIndices.size < 3) {  // max 3 selected at once
                     selectedIndices.add(token.index);
-                    chip.classList.add("selected");
                 }
 
-                // Show buttons
-                if (selectedIndices.size > 0) {
-                    traceButton.style.display = "inline-block";
-                    predictButton.style.display = "inline-block";
+                syncTokenSelectionUI();
+
+                const isTraceScreen = document.getElementById("screen-trace").classList.contains("active");
+
+                if (isTraceScreen) {
+                    if (selectedIndices.size > 0) {
+                        const data = await trace(currentText, [...selectedIndices]);
+                        currentTraceData = data;
+                        renderTrajectory(data);
+                    } else {
+                        // Clear all dots if everything is deselected
+                        for (let layer = 0; layer < N_LAYERS; layer++) {
+                            renderDots(layer, [], {});
+                        }
+                    }
                 } else {
-                    traceButton.style.display = "none";
-                    predictButton.style.display = "none";
+                    // Show buttons
+                    const display = selectedIndices.size > 0 ? "block" : "none";
+                    traceButton.style.display = display;
+                    predictButton.style.display = display;
                 }
             });
         }
@@ -298,18 +343,19 @@ function renderPredictUI() {
         return;
     }
 
-    // Draw bars
     const layerData = currentPredictData.predictions_by_layer.find(l => l.layer === currentPredictLayer);
-    document.getElementById("predict-container").innerHTML = layerData ? 
-        layerData.top_tokens.map(t => {
-            const percent = (t.probability * 100).toFixed(2);
-            return `
-                <div class="prediction-item">
-                    <div class="prediction-token-chip">${t.token}</div>
-                    <div class="bar-track"><div class="bar-fill" style="width: ${percent}%;"></div></div>
-                    <div class="bar-label">${percent}%</div>
-                </div>`;
-        }).join('') : "";
+    const HTML = layerData ? layerData.top_tokens.map(t => {
+        const percent = (t.probability * 100).toFixed(2);
+        return `
+            <div class="prediction-item">
+                <div class="prediction-token-chip">${t.token}</div>
+                <div class="bar-track"><div class="bar-fill" style="width: ${percent}%;"></div></div>
+                <div class="bar-label">${percent}%</div>
+            </div>`;
+    }).join('') : "";
+
+    document.getElementById("predict-container").innerHTML = HTML;
+    document.getElementById("single-plane-predict-container").innerHTML = HTML;
 
     // Draw interactive token selection
     const tokensRow = document.getElementById("predict-tokens-row");
@@ -351,6 +397,102 @@ function renderPredictUI() {
 }
 
 
+function renderSinglePlaneUI() {
+    document.getElementById("single-plane-layer-chips").innerHTML = Array.from({length: N_LAYERS}, (_, i) => 
+        `<span class="layer-chip ${i === currentPredictLayer ? "selected" : ""}" onclick="currentPredictLayer=${i}; renderSinglePlaneUI()">${i}</span>`
+    ).join('');
+
+    document.getElementById("single-plane-tokens-row").innerHTML = Array.from(selectedIndices).map(tokenIdx => 
+        `<span class="token-chip ${tokenIdx === currentPredictTokenIndex ? 'selected' : ''}" 
+            onclick="predict(currentText, ${tokenIdx}).then(data => { currentPredictData = data; currentPredictTokenIndex = ${tokenIdx}; renderSinglePlaneUI(); })">
+            ${currentTokens.find(t=>t.index===tokenIdx).token_str}
+        </span>`
+    ).join('');
+
+    renderPredictUI();
+
+    const container = document.getElementById("single-plane-dots-container");
+
+    if (!container) {
+        return;
+    }
+    
+    container.innerHTML = "";
+
+    const tokenIdx = currentPredictTokenIndex;
+    
+    if (currentTraceData && tokenIdx !== null) {
+
+        const points = normalizeCoords(currentTraceData.trajectories)[String(tokenIdx)];
+        
+        points?.forEach(point => {
+            const dot = document.createElement("div");
+            dot.className = "trajectory-dot"; 
+            dot.style.transform = "translate(-50%, -50%)"; 
+            dot.style.backgroundColor = "var(--color-black)";
+            dot.style.opacity = point.layer === currentPredictLayer ? "1" : "0.2";
+            dot.style.left = `${point.x * 100}%`;
+            dot.style.bottom = `${point.y * 100}%`;
+            dot.setAttribute("data-tooltip", `layer: ${point.layer}\nx: ${point.rawX}\ny: ${point.rawY}`);
+            
+            container.appendChild(dot);
+        });
+    }
+}
+
+
+async function renderSingleHeadUI() {
+    document.getElementById("attention-layer-chips").innerHTML = Array.from({length: N_LAYERS}, (_, i) => 
+        `<span class="layer-chip ${i === currentAttnLayer ? "selected" : ""}" onclick="currentAttnLayer=${i}; renderSingleHeadUI()">${i}</span>`
+    ).join('');
+
+    document.getElementById("attention-head-chips").innerHTML = Array.from({length: N_LAYERS}, (_, i) => 
+        `<span class="layer-chip ${i === currentAttnHead ? "selected" : ""}" onclick="currentAttnHead=${i}; renderSingleHeadUI()">${i}</span>`
+    ).join('');
+
+    const data = await attention(currentText, currentAttnLayer, currentAttnHead);
+    const n = data.attention_matrix.length;
+    const tokens = data.tokens;
+    const box = document.getElementById("single-heatmap-box");
+    
+    box.style.border = "none";
+    box.style.width = "fit-content";
+    box.style.height = "auto";
+    box.style.backgroundColor = "transparent";
+
+    box.innerHTML = `
+        <div style="display: grid; grid-template-columns: max-content 450px; grid-template-rows: max-content 450px; gap: 5px;">
+            <div></div> <div style="display: grid; grid-template-columns: repeat(${n}, 1fr); justify-items: center; align-items: end;">
+                ${tokens.map(t => `<span style="font-family: var(--font-family); font-size: 16px; writing-mode: vertical-rl; transform: rotate(180deg); padding-bottom: 5px;">${t}</span>`).join('')}
+            </div>
+            
+            <div style="display: grid; grid-template-rows: repeat(${n}, 1fr); align-items: center; justify-items: end; padding-right: 5px;">
+                ${tokens.map(t => `<span style="font-family: var(--font-family); font-size: 16px;">${t}</span>`).join('')}
+            </div>
+            
+            <div class="heatmap-grid" style="border: 4px solid var(--color-black); background-color: var(--color-white); grid-template-columns: repeat(${n}, 1fr); grid-template-rows: repeat(${n}, 1fr);">
+                ${data.attention_matrix.flatMap((row, i) => 
+                    row.map((val, j) => `<div class="heatmap-cell" style="opacity: ${val};" title="${tokens[i]} → ${tokens[j]}\nattention: ${val.toFixed(3)}"></div>`)
+                ).join('')}
+            </div>
+        </div>
+    `;
+}
+
+
+// =======================================================
+//                     Helper functions                  =
+// =======================================================
+
+
+const togglePlaneView = (showSingle) => {
+    document.getElementById("single-plane-view").style.display = showSingle ? "block" : "none";
+    document.getElementById("shared-planes-container").style.display = showSingle ? "none" : "block";
+    document.getElementById("trace-tokens-row").style.display = showSingle ? "none" : "flex";
+    document.getElementById("screen-trace").style.display = showSingle ? "none" : "";
+};
+
+
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s =>
         s.classList.remove('active')
@@ -358,13 +500,45 @@ function showScreen(id) {
 
     document.getElementById(id).classList.add('active');
 
+    if (id === 'screen-input') {
+        setTimeout(() => {
+            const textarea = document.getElementById('text-input');
+            textarea.focus(); 
+            
+            const textLength = textarea.value.length;
+            textarea.setSelectionRange(textLength, textLength);
+        }, 0);
+    }
+
     // Show planes on Trace or Attention
     const sharedPlanes = document.getElementById("shared-planes-container");
-    if (id === "screen-trace" || id === "screen-attention") {
+    const traceTokens = document.getElementById("trace-tokens-row");
+
+    if (id === "screen-trace") {
         sharedPlanes.style.display = "block";
+        traceTokens.style.display = "flex";
+        renderTokenChips(currentTokens, "trace-tokens-row");
+
+    } else if (id === "screen-attention") {
+        sharedPlanes.style.display = "block";
+        traceTokens.style.display = "none";
     } else {
         sharedPlanes.style.display = "none";
+        traceTokens.style.display = "none";
     }
+}
+
+function syncTokenSelectionUI() {
+    document.querySelectorAll('.token-chip').forEach(chip => {
+        const idx = parseInt(chip.dataset.index);
+        if (!isNaN(idx)) {
+            if (selectedIndices.has(idx)) {
+                chip.classList.add("selected");
+            } else {
+                chip.classList.remove("selected");
+            }
+        }
+    });
 }
 
 // =======================================================
@@ -372,47 +546,88 @@ function showScreen(id) {
 // =======================================================
 
 function setupPlaneInteractions() {
-    const planesContainer = document.getElementById("shared-planes-container");
     const planes = document.querySelectorAll(".plane");
 
-    if (!planesContainer) {
-        return;
-    }
-
-    // Double click: toggles the flat 2D collapse view
-    planesContainer.addEventListener("dblclick", () => {
-        if (!planesContainer.classList.contains("has-focus")) {
-            planesContainer.classList.toggle("face-user");
-        }
-    });
-
-    // Single click: selects a specific plane
-    planes.forEach(plane => {
-        plane.addEventListener("click", (event) => {
-            if (planesContainer.classList.contains("face-user")) {
-                return;
-            }
+    planes.forEach((plane, index) => {
+        plane.addEventListener("click", async (event) => {
+            event.stopPropagation();
             
-            event.stopPropagation(); 
-
-            if (plane.classList.contains("focused")) {
-                plane.classList.remove("focused");
-                planesContainer.classList.remove("has-focus");
-            } else {
-                planes.forEach(p => p.classList.remove("focused"));
-                plane.classList.add("focused");
-                planesContainer.classList.add("has-focus");
+            if (document.getElementById("screen-trace").classList.contains("active")) {
+                // If on Trace, open the 2D Trajectory/Prediction view
+                await handleSinglePlaneClick(index);
+                
+            } else if (document.getElementById("screen-attention").classList.contains("active")) {
+                // If on Attention, set the layer and open the 2D Heatmap view
+                currentAttnLayer = index;
+                await handleSingleHeadAttention();
             }
         });
-    });
-
-    // Click background: clears the focus
-    planesContainer.addEventListener("click", () => {
-        if (planesContainer.classList.contains("has-focus")) {
-            planes.forEach(p => p.classList.remove("focused"));
-            planesContainer.classList.remove("has-focus");
-        }
     });
 }
 
 setupPlaneInteractions();
+
+// =======================================================
+//                Onboarding trail effect                =
+// =======================================================
+
+let lastX = null;
+let lastY = null;
+const activeSquares = new Set();
+const onboardingScreen = document.getElementById('screen-onboarding');
+
+onboardingScreen.addEventListener('mousemove', (event) => {
+    
+    if (lastX === null) {
+        lastX = event.clientX;
+        lastY = event.clientY;
+    }
+
+    // Distance moved
+    const dx = event.clientX - lastX;
+    const dy = event.clientY - lastY;
+    
+    const maxDistance = Math.max(Math.abs(dx), Math.abs(dy));
+    const steps = Math.max(1, Math.floor(maxDistance / 32));
+
+    for (let i = 1; i <= steps; i++) {
+        const pointX = lastX + (dx * (i / steps));
+        const pointY = lastY + (dy * (i / steps));
+
+        const gridX = Math.floor(pointX / 32) * 32;
+        const gridY = Math.floor(pointY / 32) * 32;
+
+        drawSquare(gridX, gridY);
+    }
+
+    lastX = event.clientX;
+    lastY = event.clientY;
+});
+
+// Reset
+onboardingScreen.addEventListener('mouseleave', () => {
+    lastX = null; 
+    lastY = null;
+});
+
+
+function drawSquare(x, y) {
+    const id = `${x},${y}`;
+    
+    if (activeSquares.has(id)) {
+        return;
+    }
+
+    activeSquares.add(id);
+
+    const square = document.createElement('div');
+    square.className = 'trail-square';
+    square.style.left = `${x}px`;
+    square.style.top = `${y}px`;
+    onboardingScreen.appendChild(square);
+
+    setTimeout(() => { 
+        square.remove(); 
+        activeSquares.delete(id); 
+    }, 800);
+}
