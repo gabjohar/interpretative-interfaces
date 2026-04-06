@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attention Marginalia — Interpretive Interfaces Prototype</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rough.js/4.6.6/rough.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --parchment: #f4e8c1;
+    --parchment-dark: #e6d5a8;
+    --ink: #2c1810;
+    --ink-light: #5a3a2a;
+    --red-ink: #8b2500;
+    --blue-ink: #1a3a5c;
+    --gold: #b8860b;
+    --margin-text: #6b4423;
+  }
+
+  body {
+    background: #3a2a1a;
+    font-family: 'EB Garamond', Georgia, serif;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--parchment);
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0.7;
+  }
+
+  .controls {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .controls label {
+    color: var(--parchment-dark);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+  }
+
+  .controls select, .controls input[type="range"] {
+    background: var(--parchment-dark);
+    border: 1px solid var(--gold);
+    color: var(--ink);
+    font-family: 'EB Garamond', serif;
+    padding: 0.3rem 0.5rem;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  .controls input[type="range"] {
+    width: 140px;
+    accent-color: var(--gold);
+  }
+
+  .layer-display {
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .manuscript-page {
+    background: var(--parchment);
+    width: 1000px;
+    max-width: 95vw;
+    min-height: 700px;
+    position: relative;
+    padding: 3rem;
+    box-shadow:
+      0 0 0 1px var(--parchment-dark),
+      0 2px 20px rgba(0,0,0,0.4),
+      inset 0 0 80px rgba(0,0,0,0.05);
+    display: grid;
+    grid-template-columns: 180px 1fr 180px;
+    gap: 1.5rem;
+    border-radius: 2px;
+  }
+
+  .manuscript-page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(139,100,60,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse at 80% 30%, rgba(139,100,60,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 80%, rgba(100,70,40,0.05) 0%, transparent 50%);
+    pointer-events: none;
+    border-radius: 2px;
+  }
+
+  .left-margin, .right-margin {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.8rem;
+    color: var(--margin-text);
+    position: relative;
+    padding-top: 1rem;
+  }
+
+  .left-margin { text-align: right; padding-right: 0.8rem; border-right: 1px solid rgba(139,100,60,0.15); }
+  .right-margin { text-align: left; padding-left: 0.8rem; border-left: 1px solid rgba(139,100,60,0.15); }
+
+  .main-text {
+    font-size: 1.25rem;
+    line-height: 2.2;
+    position: relative;
+    padding-top: 1rem;
+  }
+
+  .main-text .token {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline;
+    padding: 0.1em 0;
+  }
+
+  .main-text .token:hover {
+    background: rgba(184,134,11,0.15);
+    border-radius: 2px;
+  }
+
+  .main-text .token.selected {
+    background: rgba(184,134,11,0.25);
+    border-radius: 2px;
+  }
+
+  .margin-note {
+    position: absolute;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    padding: 0.4rem;
+    border-radius: 3px;
+    transition: opacity 0.4s ease, transform 0.3s ease;
+    max-width: 170px;
+  }
+
+  .margin-note.attention-note {
+    color: var(--red-ink);
+    font-style: italic;
+  }
+
+  .margin-note.feature-note {
+    color: var(--blue-ink);
+    font-size: 0.7rem;
+  }
+
+  .margin-note.entropy-note {
+    color: var(--margin-text);
+    font-size: 0.7rem;
+  }
+
+  .manicule {
+    display: inline-block;
+    font-size: 1.1rem;
+    margin-right: 0.2rem;
+    color: var(--red-ink);
+  }
+
+  svg.attention-arcs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .legend {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    color: var(--parchment-dark);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .legend-swatch {
+    width: 20px;
+    height: 3px;
+    border-radius: 1px;
+  }
+
+  .info-panel {
+    background: var(--parchment);
+    width: 1000px;
+    max-width: 95vw;
+    margin-top: 1rem;
+    padding: 1.5rem 3rem;
+    border-radius: 2px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--ink-light);
+  }
+
+  .info-panel h3 {
+    font-size: 1rem;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  .info-panel .token-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 0.8rem;
+  }
+
+  .info-panel .detail-col h4 {
+    font-size: 0.85rem;
+    color: var(--red-ink);
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+  }
+
+  .prob-bar-container {
+    margin: 0.2rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+  }
+
+  .prob-bar {
+    height: 6px;
+    background: var(--gold);
+    border-radius: 3px;
+    opacity: 0.7;
+    transition: width 0.3s ease;
+  }
+
+  .prob-label { min-width: 70px; }
+  .prob-value { color: var(--ink-light); min-width: 40px; text-align: right; }
+
+  .initial-prompt {
+    text-align: center;
+    color: var(--ink-light);
+    font-style: italic;
+    padding: 2rem;
+    font-size: 1.1rem;
+    opacity: 0.6;
+  }
+
+  .section-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  .mode-toggle {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .mode-toggle button {
+    background: transparent;
+    border: none;
+    color: var(--parchment-dark);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+
+  .mode-toggle button.active {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  .mode-toggle button:not(:last-child) {
+    border-right: 1px solid var(--gold);
+  }
+</style>
+</head>
+<body>
+
+<div class="page-title">Attention Marginalia — Interpretive Interfaces Prototype</div>
+
+<div class="controls">
+  <label>Passage:</label>
+  <select id="passage-select">
+    <option value="0">On the nature of memory</option>
+    <option value="1">The ship of Theseus</option>
+    <option value="2">Recursive self-improvement</option>
+  </select>
+
+  <label>Layer:</label>
+  <input type="range" id="layer-slider" min="0" max="11" value="11">
+  <span class="layer-display" id="layer-label">Layer 12</span>
+
+  <div class="mode-toggle">
+    <button class="active" data-mode="attention" onclick="setMode('attention')">Attention</button>
+    <button data-mode="entropy" onclick="setMode('entropy')">Entropy</button>
+    <button data-mode="features" onclick="setMode('features')">Features</button>
+  </div>
+</div>
+
+<div class="manuscript-page" id="manuscript">
+  <div class="left-margin" id="left-margin"></div>
+  <div class="main-text" id="main-text">
+    <svg class="attention-arcs" id="arcs-svg"></svg>
+  </div>
+  <div class="right-margin" id="right-margin"></div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:#8b2500"></div> Strong attention</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:rgba(139,37,0,0.3)"></div> Weak attention</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--gold)"></div> Selected token</div>
+  <div class="legend-item"><span style="filter:blur(1px);color:var(--parchment-dark)">abc</span> High entropy (uncertain)</div>
+</div>
+
+<div class="info-panel" id="info-panel">
+  <p class="initial-prompt">Click any word in the manuscript to see its attention pattern, entropy, and feature activations.</p>
+</div>
+
+<script>
+// ============================================================
+// SIMULATED MODEL DATA
+// In a real prototype, this would come from a Transformers hook
+// extracting attention weights, logits, and SAE features.
+// ============================================================
+
+const passages = [
+  {
+    title: "On the nature of memory",
+    tokens: ["Memory", "is", "not", "a", "warehouse", "but", "a", "living", "garden", ".", "Each", "time", "we", "remember", ",", "we", "reconstruct", "—", "pulling", "fragments", "from", "scattered", "shelves", "and", "weaving", "them", "into", "a", "story", "that", "feels", "whole", ".", "The", "gardener", "prunes", "and", "grafts", ",", "and", "what", "blooms", "today", "is", "never", "quite", "the", "flower", "that", "was", "planted", "."],
+    prompt: ["What", "is", "memory", "really", "like", "?"]
+  },
+  {
+    title: "The ship of Theseus",
+    tokens: ["If", "every", "plank", "of", "a", "ship", "is", "replaced", ",", "one", "by", "one", ",", "the", "vessel", "that", "sails", "into", "port", "carries", "none", "of", "its", "original", "timber", ".", "Yet", "the", "harbor", "master", "logs", "the", "same", "name", ".", "Identity", ",", "it", "seems", ",", "lives", "not", "in", "material", "but", "in", "the", "continuity", "of", "pattern", "—", "the", "shape", "the", "water", "remembers", "."],
+    prompt: ["Is", "the", "ship", "still", "the", "same", "?"]
+  },
+  {
+    title: "Recursive self-improvement",
+    tokens: ["A", "mind", "that", "can", "examine", "its", "own", "reasoning", "holds", "a", "strange", "mirror", ".", "The", "reflection", "changes", "the", "thing", "reflected", ",", "which", "changes", "the", "reflection", ",", "which", "changes", "the", "thing", ".", "Where", "does", "the", "loop", "settle", "?", "Perhaps", "it", "doesn't", ".", "Perhaps", "that", "restless", "recursion", "is", "precisely", "what", "we", "mean", "by", "thinking", "."],
+    prompt: ["Can", "a", "mind", "improve", "itself", "?"]
+  }
+];
+
+// Generate simulated attention, entropy, and feature data
+function generateData(passage, layer) {
+  const n = passage.tokens.length;
+  const pn = passage.prompt.length;
+  const totalLen = pn + n;
+  const layerFrac = layer / 11;
+
+  // Seed-based pseudo-random for consistency
+  function seededRandom(seed) {
+    let x = Math.sin(seed * 9301 + 49297) * 49297;
+    return x - Math.floor(x);
+  }
+
+  // Attention: each generated token attends to some prompt + previous tokens
+  const attention = [];
+  for (let i = 0; i < n; i++) {
+    const attn = {};
+    // Attend to prompt tokens (stronger in early layers)
+    for (let j = 0; j < pn; j++) {
+      const base = seededRandom(i * 100 + j * 7 + layer * 3);
+      const promptBias = (1 - layerFrac) * 0.3 + 0.05;
+      attn[`p${j}`] = base * promptBias;
+    }
+    // Attend to previous generated tokens (stronger in later layers for long-range)
+    for (let j = 0; j < i; j++) {
+      const dist = i - j;
+      const base = seededRandom(i * 50 + j * 13 + layer * 7);
+      const localBias = dist < 4 ? 0.4 : layerFrac * 0.25;
+      // Semantic attention: content words attend to related content words
+      const srcWord = passage.tokens[i].toLowerCase();
+      const tgtWord = passage.tokens[j].toLowerCase();
+      const semanticBoost = getSemanticAffinity(srcWord, tgtWord) * layerFrac * 0.5;
+      attn[`g${j}`] = base * localBias + semanticBoost;
+    }
+    // Normalize
+    const total = Object.values(attn).reduce((s, v) => s + v, 0) || 1;
+    for (const k in attn) attn[k] /= total;
+    attention.push(attn);
+  }
+
+  // Entropy per token
+  const entropy = passage.tokens.map((tok, i) => {
+    const base = seededRandom(i * 31 + layer * 11 + 42);
+    // Punctuation = low entropy, rare words = high entropy
+    const isPunct = /^[.,;:!?—\-]$/.test(tok);
+    const isCommon = ["is","a","the","and","but","not","of","in","to","that","it","we","its","was"].includes(tok.toLowerCase());
+    if (isPunct) return 0.1 + base * 0.2;
+    if (isCommon) return 0.3 + base * 0.4;
+    return 0.4 + base * 0.9 * (1 - layerFrac * 0.3); // Later layers = more confident
+  });
+
+  // Top-k alternatives per token
+  const alternatives = passage.tokens.map((tok, i) => {
+    const alts = [];
+    const altWords = getAlternatives(tok, i, passage.tokens);
+    const ent = entropy[i];
+    for (let k = 0; k < altWords.length; k++) {
+      const p = Math.max(0.01, (1 - ent) * Math.pow(0.5, k) + seededRandom(i * 17 + k * 3) * 0.1);
+      alts.push({ token: altWords[k], prob: p });
+    }
+    // Normalize
+    const total = alts.reduce((s, a) => s + a.prob, 0);
+    alts.forEach(a => a.prob /= total);
+    alts.sort((a, b) => b.prob - a.prob);
+    return alts;
+  });
+
+  // SAE features per token
+  const features = passage.tokens.map((tok, i) => {
+    return getFeatures(tok, i, passage.tokens, layer);
+  });
+
+  return { attention, entropy, alternatives, features };
+}
+
+function getSemanticAffinity(a, b) {
+  const groups = [
+    ["memory","remember","remembers","reconstruct","recall","fragments"],
+    ["garden","gardener","prunes","grafts","blooms","flower","planted","living"],
+    ["warehouse","shelves","scattered","storage"],
+    ["story","weaving","whole","narrative"],
+    ["ship","plank","vessel","sails","timber","port","harbor"],
+    ["identity","name","same","pattern","continuity"],
+    ["mind","reasoning","thinking","examine","reflection","reflected"],
+    ["mirror","reflection","reflected","changes","loop","recursion","recursive"],
+  ];
+  for (const g of groups) {
+    if (g.includes(a) && g.includes(b)) return 1.0;
+  }
+  return 0;
+}
+
+function getAlternatives(token, idx, tokens) {
+  const alts = {
+    "memory": ["Memory","Recall","Remembrance","Recollection"],
+    "warehouse": ["warehouse","storehouse","archive","repository","vault"],
+    "garden": ["garden","ecosystem","landscape","tapestry","organism"],
+    "reconstruct": ["reconstruct","rebuild","reassemble","reimagine","recreate"],
+    "fragments": ["fragments","pieces","shards","echoes","traces"],
+    "weaving": ["weaving","stitching","braiding","assembling","knitting"],
+    "gardener": ["gardener","curator","editor","architect","sculptor"],
+    "prunes": ["prunes","trims","shapes","edits","revises"],
+    "blooms": ["blooms","emerges","appears","grows","surfaces"],
+    "flower": ["flower","plant","growth","blossom","creation"],
+    "plank": ["plank","board","timber","piece","part"],
+    "ship": ["ship","vessel","boat","craft","hull"],
+    "vessel": ["vessel","ship","craft","hull","boat"],
+    "identity": ["Identity","Selfhood","Essence","Being","Continuity"],
+    "continuity": ["continuity","persistence","coherence","thread","narrative"],
+    "remembers": ["remembers","recalls","knows","holds","carries"],
+    "mind": ["mind","system","intelligence","consciousness","agent"],
+    "mirror": ["mirror","lens","window","loop","paradox"],
+    "reflection": ["reflection","image","echo","shadow","copy"],
+    "recursion": ["recursion","spiral","loop","cycle","iteration"],
+    "thinking": ["thinking","consciousness","cognition","awareness","intelligence"],
+  };
+  const key = token.toLowerCase();
+  return alts[key] || [token, "·","·","·"];
+}
+
+function getFeatures(token, idx, tokens, layer) {
+  const featureMap = {
+    "memory": ["long-term-memory","cognition","abstract-noun","psychological-concept"],
+    "warehouse": ["physical-structure","storage","metaphor-vehicle","concrete-noun"],
+    "garden": ["nature","growth","metaphor-vehicle","living-system"],
+    "living": ["animate","organic","modifier","present-participle"],
+    "reconstruct": ["creation","reversal-prefix","active-verb","cognitive-process"],
+    "fragments": ["part-whole","plurality","brokenness","abstract-concrete-bridge"],
+    "scattered": ["spatial-distribution","disorder","past-participle","physical-state"],
+    "weaving": ["textile-craft","connection","metaphor","present-participle"],
+    "story": ["narrative","meaning-making","human-universal","abstract-noun"],
+    "gardener": ["human-agent","nature-cultivation","metaphor-tenor","occupation"],
+    "prunes": ["subtraction","care","botanical","dual-meaning"],
+    "blooms": ["emergence","beauty","botanical","transformation"],
+    "ship": ["vehicle","maritime","thought-experiment","physical-object"],
+    "plank": ["component","wood","physical-material","part-whole"],
+    "vessel": ["container","maritime","formal-register","metaphor-ready"],
+    "identity": ["selfhood","philosophy","abstract-noun","core-concept"],
+    "continuity": ["persistence","time","mathematics","abstract-noun"],
+    "pattern": ["structure","recurrence","abstract-noun","cognition"],
+    "mind": ["cognition","consciousness","abstract-noun","self-reference"],
+    "mirror": ["reflection","symmetry","metaphor-vehicle","physical-object"],
+    "reasoning": ["logic","cognition","present-participle","meta-cognitive"],
+    "reflection": ["self-reference","light","metaphor","dual-meaning"],
+    "recursion": ["self-reference","mathematics","loop","computer-science"],
+    "thinking": ["cognition","meta-level","present-participle","consciousness"],
+  };
+  const key = token.toLowerCase();
+  const base = featureMap[key] || [];
+  // Layer affects which features are active: early = syntactic, late = semantic
+  const layerFrac = layer / 11;
+  const syntactic = ["present-participle","past-participle","active-verb","modifier","plurality","concrete-noun","abstract-noun","formal-register"];
+  const semantic = ["metaphor-vehicle","metaphor-tenor","metaphor","dual-meaning","self-reference","meta-cognitive","meta-level","abstract-concrete-bridge","human-universal","core-concept","thought-experiment"];
+
+  return base.map(f => {
+    let strength = 0.5 + Math.random() * 0.5;
+    if (syntactic.includes(f)) strength *= (1 - layerFrac * 0.5);
+    if (semantic.includes(f)) strength *= (0.5 + layerFrac * 0.5);
+    return { name: f, strength };
+  }).sort((a, b) => b.strength - a.strength);
+}
+
+// ============================================================
+// RENDERING
+// ============================================================
+
+let currentPassage = 0;
+let currentLayer = 11;
+let currentMode = 'attention';
+let selectedToken = null;
+let data = null;
+
+function setMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-toggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+  render();
+}
+
+document.getElementById('passage-select').addEventListener('change', e => {
+  currentPassage = parseInt(e.target.value);
+  selectedToken = null;
+  render();
+});
+
+document.getElementById('layer-slider').addEventListener('input', e => {
+  currentLayer = parseInt(e.target.value);
+  document.getElementById('layer-label').textContent = `Layer ${currentLayer + 1}`;
+  render();
+});
+
+function render() {
+  const passage = passages[currentPassage];
+  data = generateData(passage, currentLayer);
+
+  renderMainText(passage, data);
+  renderMargins(passage, data);
+  renderInfoPanel();
+}
+
+function renderMainText(passage, data) {
+  const container = document.getElementById('main-text');
+  // Keep SVG, clear text nodes
+  const svg = document.getElementById('arcs-svg');
+  container.innerHTML = '';
+  container.appendChild(svg);
+  svg.innerHTML = '';
+
+  // Render prompt tokens (faded)
+  passage.prompt.forEach((tok, i) => {
+    const span = document.createElement('span');
+    span.className = 'token prompt-token';
+    span.textContent = tok;
+    span.style.opacity = '0.35';
+    span.style.fontStyle = 'italic';
+    container.appendChild(span);
+    container.appendChild(document.createTextNode(' '));
+  });
+
+  // Separator
+  const sep = document.createElement('span');
+  sep.textContent = '→ ';
+  sep.style.color = 'var(--gold)';
+  sep.style.opacity = '0.5';
+  container.appendChild(sep);
+
+  // Render generated tokens with entropy weathering
+  passage.tokens.forEach((tok, i) => {
+    const span = document.createElement('span');
+    span.className = 'token';
+    span.textContent = tok;
+    span.dataset.index = i;
+
+    if (currentMode === 'entropy') {
+      const ent = data.entropy[i];
+      // Weathering: blur, opacity, color shift based on entropy
+      const blur = Math.max(0, (ent - 0.3) * 2.5);
+      const opacity = Math.max(0.3, 1 - ent * 0.5);
+      const colorShift = Math.min(60, ent * 80);
+      span.style.filter = `blur(${blur}px)`;
+      span.style.opacity = opacity;
+      span.style.color = `hsl(20, ${30 + colorShift}%, ${15 + colorShift * 0.5}%)`;
+    }
+
+    if (selectedToken === i) {
+      span.classList.add('selected');
+    }
+
+    span.addEventListener('click', () => {
+      selectedToken = i;
+      render();
+    });
+
+    container.appendChild(span);
+
+    // Add space (but not after punctuation-preceding tokens)
+    const nextTok = passage.tokens[i + 1];
+    if (nextTok && !/^[.,;:!?]$/.test(nextTok)) {
+      container.appendChild(document.createTextNode(' '));
+    }
+  });
+
+  // Draw attention arcs if a token is selected and mode is attention
+  if (selectedToken !== null && currentMode === 'attention') {
+    requestAnimationFrame(() => drawAttentionArcs(passage, data));
+  }
+}
+
+function drawAttentionArcs(passage, data) {
+  const svg = document.getElementById('arcs-svg');
+  const container = document.getElementById('main-text');
+  svg.innerHTML = '';
+
+  const rect = container.getBoundingClientRect();
+  svg.setAttribute('width', rect.width);
+  svg.setAttribute('height', rect.height);
+
+  const attn = data.attention[selectedToken];
+  if (!attn) return;
+
+  const tokenSpans = container.querySelectorAll('.token:not(.prompt-token)');
+  const promptSpans = container.querySelectorAll('.prompt-token');
+  const selectedSpan = tokenSpans[selectedToken];
+  if (!selectedSpan) return;
+
+  const selRect = selectedSpan.getBoundingClientRect();
+  const selX = selRect.left - rect.left + selRect.width / 2;
+  const selY = selRect.top - rect.top + selRect.height * 0.8;
+
+  // Draw arcs to attended tokens
+  for (const [key, weight] of Object.entries(attn)) {
+    if (weight < 0.03) continue;
+
+    let targetSpan;
+    if (key.startsWith('p')) {
+      const idx = parseInt(key.slice(1));
+      targetSpan = promptSpans[idx];
+    } else {
+      const idx = parseInt(key.slice(1));
+      targetSpan = tokenSpans[idx];
+    }
+    if (!targetSpan) continue;
+
+    const tRect = targetSpan.getBoundingClientRect();
+    const tX = tRect.left - rect.left + tRect.width / 2;
+    const tY = tRect.top - rect.top + tRect.height * 0.2;
+
+    const isPrompt = key.startsWith('p');
+    const color = isPrompt ? 'rgba(26,58,92,' : 'rgba(139,37,0,';
+    const opacity = Math.min(0.8, weight * 3);
+    const strokeWidth = Math.max(0.5, weight * 6);
+
+    // Curved arc
+    const midY = Math.min(selY, tY) - 20 - weight * 40;
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const d = `M ${selX} ${selY} Q ${(selX + tX) / 2} ${midY} ${tX} ${tY}`;
+    path.setAttribute('d', d);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', `${color}${opacity})`);
+    path.setAttribute('stroke-width', strokeWidth);
+    path.setAttribute('stroke-linecap', 'round');
+    // Rough.js style: add slight jitter
+    path.setAttribute('stroke-dasharray', weight > 0.1 ? 'none' : '3,2');
+    svg.appendChild(path);
+
+    // Small dot at target
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', tX);
+    circle.setAttribute('cy', tY);
+    circle.setAttribute('r', Math.max(2, weight * 5));
+    circle.setAttribute('fill', `${color}${opacity * 0.6})`);
+    svg.appendChild(circle);
+  }
+}
+
+function renderMargins(passage, data) {
+  const leftMargin = document.getElementById('left-margin');
+  const rightMargin = document.getElementById('right-margin');
+  leftMargin.innerHTML = '';
+  rightMargin.innerHTML = '';
+
+  if (selectedToken === null) {
+    leftMargin.innerHTML = '<span class="section-label">Attention</span><p style="font-size:0.75rem;opacity:0.5;font-style:italic;">Select a word to see what it attends to</p>';
+    rightMargin.innerHTML = '<span class="section-label">Features</span><p style="font-size:0.75rem;opacity:0.5;font-style:italic;">Select a word to see its active features</p>';
+    return;
+  }
+
+  const tok = passage.tokens[selectedToken];
+  const attn = data.attention[selectedToken];
+  const features = data.features[selectedToken];
+  const ent = data.entropy[selectedToken];
+
+  // Left margin: top attention sources
+  leftMargin.innerHTML = `<span class="section-label">Attends to</span>`;
+  const sortedAttn = Object.entries(attn)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6);
+
+  sortedAttn.forEach(([key, weight]) => {
+    if (weight < 0.02) return;
+    let sourceToken;
+    if (key.startsWith('p')) {
+      sourceToken = passage.prompt[parseInt(key.slice(1))];
+    } else {
+      sourceToken = passage.tokens[parseInt(key.slice(1))];
+    }
+    const note = document.createElement('div');
+    note.className = 'margin-note attention-note';
+    note.style.position = 'relative';
+    note.style.marginBottom = '0.3rem';
+    const barWidth = Math.round(weight * 100);
+    note.innerHTML = `<span class="manicule">☞</span> <strong>${sourceToken}</strong> <span style="opacity:0.6">${Math.round(weight * 100)}%</span>
+      <div style="height:2px;background:var(--red-ink);opacity:0.3;width:${barWidth}%;margin-top:2px;border-radius:1px;"></div>`;
+    leftMargin.appendChild(note);
+  });
+
+  // Right margin: features
+  rightMargin.innerHTML = `<span class="section-label">Active features</span>`;
+  features.slice(0, 5).forEach(f => {
+    const note = document.createElement('div');
+    note.className = 'margin-note feature-note';
+    note.style.position = 'relative';
+    note.style.marginBottom = '0.3rem';
+    const barWidth = Math.round(f.strength * 80);
+    note.innerHTML = `<em>${f.name}</em>
+      <div style="height:2px;background:var(--blue-ink);opacity:0.3;width:${barWidth}%;margin-top:2px;border-radius:1px;"></div>`;
+    rightMargin.appendChild(note);
+  });
+
+  // Entropy indicator
+  const entNote = document.createElement('div');
+  entNote.className = 'margin-note entropy-note';
+  entNote.style.position = 'relative';
+  entNote.style.marginTop = '0.8rem';
+  entNote.style.paddingTop = '0.5rem';
+  entNote.style.borderTop = '1px solid rgba(139,100,60,0.2)';
+  const entLabel = ent < 0.3 ? 'certain' : ent < 0.6 ? 'hesitant' : 'uncertain';
+  entNote.innerHTML = `<span class="section-label">Entropy</span>
+    <div style="font-size:0.8rem;">${entLabel} <span style="opacity:0.5">(${ent.toFixed(2)})</span></div>`;
+  rightMargin.appendChild(entNote);
+}
+
+function renderInfoPanel() {
+  const panel = document.getElementById('info-panel');
+
+  if (selectedToken === null) {
+    panel.innerHTML = '<p class="initial-prompt">Click any word in the manuscript to see its attention pattern, entropy, and feature activations across layers.</p>';
+    return;
+  }
+
+  const passage = passages[currentPassage];
+  const tok = passage.tokens[selectedToken];
+  const alts = data.alternatives[selectedToken];
+  const ent = data.entropy[selectedToken];
+  const features = data.features[selectedToken];
+
+  panel.innerHTML = `
+    <h3>"${tok}" — token ${selectedToken} · layer ${currentLayer + 1}</h3>
+    <div class="token-detail">
+      <div class="detail-col">
+        <h4>Alternative tokens (top-k)</h4>
+        ${alts.slice(0, 5).map(a => `
+          <div class="prob-bar-container">
+            <span class="prob-label">${a.token}</span>
+            <div class="prob-bar" style="width:${Math.round(a.prob * 150)}px"></div>
+            <span class="prob-value">${(a.prob * 100).toFixed(1)}%</span>
+          </div>
+        `).join('')}
+      </div>
+      <div class="detail-col">
+        <h4>Feature activations</h4>
+        ${features.slice(0, 5).map(f => `
+          <div class="prob-bar-container">
+            <span class="prob-label" style="font-style:italic">${f.name}</span>
+            <div class="prob-bar" style="width:${Math.round(f.strength * 100)}px;background:var(--blue-ink);"></div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="detail-col">
+        <h4>Layer evolution</h4>
+        <div style="font-size:0.85rem;line-height:1.5;">
+          ${generateLayerNarrative(tok, currentLayer)}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function generateLayerNarrative(token, layer) {
+  const layerFrac = layer / 11;
+  const narratives = [];
+
+  if (layerFrac < 0.25) {
+    narratives.push(`<em>Early layers:</em> Token "${token}" is recognized primarily by its surface form — character patterns, common syntactic roles.`);
+  } else if (layerFrac < 0.5) {
+    narratives.push(`<em>Lower-mid layers:</em> "${token}" begins to acquire contextual meaning. Local syntactic relationships are forming.`);
+  } else if (layerFrac < 0.75) {
+    narratives.push(`<em>Upper-mid layers:</em> "${token}" now carries rich semantic content. Long-range dependencies are active. The metaphorical register is recognized.`);
+  } else {
+    narratives.push(`<em>Final layers:</em> "${token}" is fully contextualized. The model has committed to this choice with the surrounding semantic field resolved.`);
+  }
+
+  narratives.push(`<br><span style="opacity:0.5;">Move the layer slider to watch how this token's representation evolves from raw embedding to final prediction.</span>`);
+
+  return narratives.join(' ');
+}
+
+// Initialize
+render();
+</script>
+</body>
+</html>
