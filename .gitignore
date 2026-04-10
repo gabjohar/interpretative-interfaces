@@ -29,3 +29,10 @@ Thumbs.db
 
 # Environment variables
 .env
+
+# Working references (not part of codebase)
+reading-list-interpretive-technologies.md
+prototype-table-figma.tsv
+prototype-table-figma.csv
+syllabus*.md
+prototype-ideas-catalog.md
