@@ -1,0 +1,305 @@
+{
+  "predictions_by_layer": [
+    {
+      "layer": 0,
+      "top_tokens": [
+        {
+          "probability": 0.1692679077386856,
+          "token": " few"
+        },
+        {
+          "probability": 0.07134057581424713,
+          "token": " single"
+        },
+        {
+          "probability": 0.07036957889795303,
+          "token": " new"
+        },
+        {
+          "probability": 0.06850504130125046,
+          "token": " lot"
+        },
+        {
+          "probability": 0.034681521356105804,
+          "token": " small"
+        }
+      ]
+    },
+    {
+      "layer": 1,
+      "top_tokens": [
+        {
+          "probability": 0.21174366772174835,
+          "token": " few"
+        },
+        {
+          "probability": 0.1098046749830246,
+          "token": " new"
+        },
+        {
+          "probability": 0.10020623356103897,
+          "token": " lot"
+        },
+        {
+          "probability": 0.04739351570606232,
+          "token": " single"
+        },
+        {
+          "probability": 0.04121454432606697,
+          "token": " great"
+        }
+      ]
+    },
+    {
+      "layer": 2,
+      "top_tokens": [
+        {
+          "probability": 0.33697420358657837,
+          "token": " few"
+        },
+        {
+          "probability": 0.07855815440416336,
+          "token": " new"
+        },
+        {
+          "probability": 0.056607067584991455,
+          "token": " small"
+        },
+        {
+          "probability": 0.05467771738767624,
+          "token": " single"
+        },
+        {
+          "probability": 0.04064046964049339,
+          "token": " lot"
+        }
+      ]
+    },
+    {
+      "layer": 3,
+      "top_tokens": [
+        {
+          "probability": 0.3777289390563965,
+          "token": " few"
+        },
+        {
+          "probability": 0.0831325501203537,
+          "token": " small"
+        },
+        {
+          "probability": 0.05006594583392143,
+          "token": " certain"
+        },
+        {
+          "probability": 0.044582005590200424,
+          "token": " large"
+        },
+        {
+          "probability": 0.029222708195447922,
+          "token": " new"
+        }
+      ]
+    },
+    {
+      "layer": 4,
+      "top_tokens": [
+        {
+          "probability": 0.2679581344127655,
+          "token": " small"
+        },
+        {
+          "probability": 0.11205516010522842,
+          "token": " certain"
+        },
+        {
+          "probability": 0.10347290337085724,
+          "token": " few"
+        },
+        {
+          "probability": 0.06114486977458,
+          "token": " large"
+        },
+        {
+          "probability": 0.049436409026384354,
+          "token": " massive"
+        }
+      ]
+    },
+    {
+      "layer": 5,
+      "top_tokens": [
+        {
+          "probability": 0.1645951122045517,
+          "token": " small"
+        },
+        {
+          "probability": 0.08382166922092438,
+          "token": " missing"
+        },
+        {
+          "probability": 0.06311895698308945,
+          "token": " human"
+        },
+        {
+          "probability": 0.05201539397239685,
+          "token": " new"
+        },
+        {
+          "probability": 0.048748601227998734,
+          "token": " single"
+        }
+      ]
+    },
+    {
+      "layer": 6,
+      "top_tokens": [
+        {
+          "probability": 0.15806454420089722,
+          "token": " human"
+        },
+        {
+          "probability": 0.08233679085969925,
+          "token": " small"
+        },
+        {
+          "probability": 0.05746598169207573,
+          "token": " new"
+        },
+        {
+          "probability": 0.05241326615214348,
+          "token": " deep"
+        },
+        {
+          "probability": 0.03807329013943672,
+          "token": " missing"
+        }
+      ]
+    },
+    {
+      "layer": 7,
+      "top_tokens": [
+        {
+          "probability": 0.29641637206077576,
+          "token": " human"
+        },
+        {
+          "probability": 0.0710795670747757,
+          "token": " man"
+        },
+        {
+          "probability": 0.04877644404768944,
+          "token": " remarkable"
+        },
+        {
+          "probability": 0.04533630609512329,
+          "token": " strange"
+        },
+        {
+          "probability": 0.03559587150812149,
+          "token": " great"
+        }
+      ]
+    },
+    {
+      "layer": 8,
+      "top_tokens": [
+        {
+          "probability": 0.1381874531507492,
+          "token": " civilization"
+        },
+        {
+          "probability": 0.13068436086177826,
+          "token": " human"
+        },
+        {
+          "probability": 0.05187538266181946,
+          "token": " strange"
+        },
+        {
+          "probability": 0.04444149509072304,
+          "token": " remarkable"
+        },
+        {
+          "probability": 0.039158713072538376,
+          "token": " mysterious"
+        }
+      ]
+    },
+    {
+      "layer": 9,
+      "top_tokens": [
+        {
+          "probability": 0.28748372197151184,
+          "token": " civilization"
+        },
+        {
+          "probability": 0.16388267278671265,
+          "token": " civilisation"
+        },
+        {
+          "probability": 0.03578193485736847,
+          "token": " forgotten"
+        },
+        {
+          "probability": 0.018663788214325905,
+          "token": " centuries"
+        },
+        {
+          "probability": 0.018604010343551636,
+          "token": " mythical"
+        }
+      ]
+    },
+    {
+      "layer": 10,
+      "top_tokens": [
+        {
+          "probability": 0.055309612303972244,
+          "token": " forgotten"
+        },
+        {
+          "probability": 0.043966323137283325,
+          "token": " civilization"
+        },
+        {
+          "probability": 0.035831060260534286,
+          "token": " mysterious"
+        },
+        {
+          "probability": 0.03159481659531593,
+          "token": " man"
+        },
+        {
+          "probability": 0.028429275378584862,
+          "token": " strange"
+        }
+      ]
+    },
+    {
+      "layer": 11,
+      "top_tokens": [
+        {
+          "probability": 0.016129320487380028,
+          "token": " man"
+        },
+        {
+          "probability": 0.011470958590507507,
+          "token": " lost"
+        },
+        {
+          "probability": 0.010820114985108376,
+          "token": " life"
+        },
+        {
+          "probability": 0.010571281425654888,
+          "token": " long"
+        },
+        {
+          "probability": 0.010164033621549606,
+          "token": " secret"
+        }
+      ]
+    }
+  ],
+  "token_index": 32
+}

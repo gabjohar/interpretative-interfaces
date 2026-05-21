@@ -1,0 +1,130 @@
+/* =========================================================
+   Interpretative Interfaces — shared design tokens
+   Visual register: Graphic print design
+   Stark black ground, high-contrast Didone display, small
+   neutral sans for body, generous negative space.
+   Import this first in each prototype's stylesheet.
+   ========================================================= */
+
+:root {
+    /* ---------- Color ---------- */
+    --ink:           #0a0a0a;   /* near-black ground */
+    --ink-pure:      #000000;
+    --paper:         #f4f1ea;   /* warm off-white for artifacts */
+    --paper-cool:    #ededea;   /* cooler off-white for chrome */
+    --bone:          #ffffff;
+
+    --gray-90:       #1a1a1a;
+    --gray-70:       #3a3a3a;
+    --gray-50:       #6e6e6e;
+    --gray-30:       #a8a8a8;
+    --gray-15:       #d6d4cf;
+
+    --rule:          rgba(244, 241, 234, 0.18);   /* hairlines on dark */
+    --rule-ink:      rgba(10, 10, 10, 0.18);      /* hairlines on light */
+
+    --accent:        #c8462c;   /* one warm accent, use sparingly */
+
+    /* ---------- Type families ---------- */
+    --font-display:  "Bodoni Moda", "Didot", "GFS Didot", "Migra", Georgia, serif;
+    --font-body:     "Inter", "Helvetica Neue", Arial, sans-serif;
+    --font-mono:     "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
+
+    /* ---------- Type scale ----------
+       Compact, editorial. Display sizes set in clamp() so they
+       scale with the viewport without media queries. */
+    --type-display-xl:  clamp(48px, 7vw, 96px);   /* cover-style title */
+    --type-display:     clamp(32px, 4vw, 56px);   /* prototype title  */
+    --type-subhead:     22px;
+    --type-body:        14px;
+    --type-caption:     12px;
+    --type-eyebrow:     10px;                     /* tracked-out caps */
+
+    --leading-tight:    1.05;
+    --leading-snug:     1.25;
+    --leading-body:     1.45;
+
+    --track-eyebrow:    0.22em;
+    --track-display:    -0.01em;
+
+    /* ---------- Spacing ----------
+       Powers-of-two-ish scale. Use these instead of arbitrary px. */
+    --space-1:   4px;
+    --space-2:   8px;
+    --space-3:   12px;
+    --space-4:   16px;
+    --space-5:   24px;
+    --space-6:   32px;
+    --space-7:   48px;
+    --space-8:   64px;
+    --space-9:   96px;
+
+    /* ---------- Layout ---------- */
+    --grid-gutter:    24px;
+    --grid-cols:      12;
+    --hairline:       1px;
+    --max-measure:    62ch;     /* readable body column */
+
+    /* ---------- Motion ---------- */
+    --ease-out:       cubic-bezier(0.2, 0.7, 0.2, 1);
+    --dur-fast:       180ms;
+    --dur-med:        420ms;
+    --dur-slow:       900ms;
+}
+
+/* ---------- Base resets / utilities ---------- */
+
+.amalgam {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-body);
+    font-size: var(--type-body);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+.amalgam .eyebrow {
+    font-family: var(--font-body);
+    font-size: var(--type-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--track-eyebrow);
+    color: var(--gray-30);
+}
+
+.amalgam .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: var(--type-display);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--track-display);
+    font-style: italic;     /* Amalgam leans into italic Didone */
+}
+
+.amalgam .subhead {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: var(--type-subhead);
+    line-height: var(--leading-snug);
+}
+
+.amalgam .caption {
+    font-family: var(--font-body);
+    font-size: var(--type-caption);
+    color: var(--gray-30);
+    line-height: var(--leading-snug);
+}
+
+.amalgam .numeric,
+.amalgam .label-num {
+    font-family: var(--font-mono);
+    font-size: var(--type-caption);
+    color: var(--gray-30);
+    letter-spacing: 0.04em;
+}
+
+.amalgam .rule {
+    border: 0;
+    border-top: var(--hairline) solid var(--rule);
+    margin: var(--space-4) 0;
+}

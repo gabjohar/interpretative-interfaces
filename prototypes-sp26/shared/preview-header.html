@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Amalgam restyle — letterpress workspace header</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="tokens.css">
+
+    <style>
+        /* ---------- Page chrome (preview only) ---------- */
+        html, body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--ink);
+        }
+
+        .stage {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: var(--space-8);
+            padding: var(--space-8) var(--space-7);
+            min-height: 100vh;
+        }
+
+        /* ---------- Left: the artifact (kept warm, like the magazine's hero image) ---------- */
+        .artifact {
+            border: var(--hairline) solid var(--rule);
+            background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            position: relative;
+        }
+        .artifact-placeholder {
+            font-family: var(--font-mono);
+            color: var(--gray-50);
+            font-size: var(--type-caption);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .artifact-caption {
+            position: absolute;
+            bottom: var(--space-4);
+            left: var(--space-4);
+            right: var(--space-4);
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-4);
+        }
+
+        /* ---------- Right: workspace / chrome ---------- */
+        .workspace {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+            border-left: var(--hairline) solid var(--rule);
+            padding-left: var(--space-6);
+        }
+
+        .ws-header .meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: var(--space-4);
+        }
+
+        .ws-header .title {
+            margin: 0 0 var(--space-3) 0;
+        }
+
+        .ws-header .sub {
+            max-width: 32ch;
+            color: var(--gray-30);
+            font-size: var(--type-body);
+            line-height: var(--leading-body);
+            margin: 0;
+        }
+
+        .ws-section {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        .ws-section-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding-bottom: var(--space-2);
+            border-bottom: var(--hairline) solid var(--rule);
+        }
+
+        /* Token chips — placeholder for the real pool */
+        .token-pool {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+        .token-chip {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-size: 20px;
+            color: var(--paper);
+            padding: 4px 10px;
+            border: var(--hairline) solid var(--rule);
+            background: transparent;
+            cursor: grab;
+            transition: background var(--dur-fast) var(--ease-out),
+                        color var(--dur-fast) var(--ease-out);
+        }
+        .token-chip:hover {
+            background: var(--paper);
+            color: var(--ink);
+        }
+
+        /* Lever — restyled as a stark editorial button */
+        .lever {
+            margin-top: var(--space-4);
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-4);
+            padding: var(--space-3) var(--space-4);
+            background: transparent;
+            color: var(--paper);
+            border: var(--hairline) solid var(--paper);
+            font-family: var(--font-body);
+            font-size: var(--type-eyebrow);
+            text-transform: uppercase;
+            letter-spacing: var(--track-eyebrow);
+            cursor: pointer;
+            transition: background var(--dur-fast) var(--ease-out),
+                        color var(--dur-fast) var(--ease-out);
+        }
+        .lever:hover {
+            background: var(--paper);
+            color: var(--ink);
+        }
+        .lever .arrow { font-family: var(--font-mono); }
+    </style>
+</head>
+
+<body class="amalgam">
+    <div class="stage">
+
+        <!-- LEFT: where the press / paper stack lives -->
+        <section class="artifact" aria-label="press bed">
+            <span class="artifact-placeholder">[ press bed · paper stack ]</span>
+            <div class="artifact-caption">
+                <span class="numeric">FIG. 02 · LETTERPRESS</span>
+                <span class="numeric">‖Δ‖ residual stream, layers 00–11</span>
+            </div>
+        </section>
+
+        <!-- RIGHT: workspace chrome, Amalgam-style -->
+        <aside class="workspace">
+            <header class="ws-header">
+                <div class="meta">
+                    <span class="eyebrow">Interpretative Interface № 02</span>
+                    <span class="numeric">GPT-2 · small</span>
+                </div>
+                <h1 class="display title">Letterpress<span style="font-style: normal; color: var(--gray-50);">.</span></h1>
+                <p class="sub">
+                    Compose a line of type. Pull the lever. The press prints
+                    twelve sheets — one per transformer layer — each impressed
+                    in proportion to how much that layer rewrites the residual
+                    stream.
+                </p>
+            </header>
+
+            <hr class="rule">
+
+            <section class="ws-section">
+                <div class="ws-section-label">
+                    <span class="eyebrow">Tokens</span>
+                    <span class="numeric">07 sorts</span>
+                </div>
+                <div class="token-pool">
+                    <span class="token-chip">The</span>
+                    <span class="token-chip">cat</span>
+                    <span class="token-chip">sat</span>
+                    <span class="token-chip">on</span>
+                    <span class="token-chip">the</span>
+                    <span class="token-chip">mat</span>
+                    <span class="token-chip">dog</span>
+                </div>
+            </section>
+
+            <section class="ws-section">
+                <div class="ws-section-label">
+                    <span class="eyebrow">Composing stick</span>
+                    <span class="numeric">00 / 06</span>
+                </div>
+                <div class="token-pool" style="min-height: 44px; border: var(--hairline) dashed var(--rule); padding: var(--space-2);">
+                </div>
+                <button class="lever" type="button">
+                    <span>Pull to print</span>
+                    <span class="arrow">→</span>
+                </button>
+            </section>
+        </aside>
+    </div>
+</body>
+</html>

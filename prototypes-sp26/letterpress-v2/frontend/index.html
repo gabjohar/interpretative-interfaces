@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Letterpress</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/tokens.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <svg class="defs" width="0" height="0" aria-hidden="true">
+        <defs>
+            <filter id="ink-trace" x="-50%" y="-50%" width="200%" height="200%">
+                <feFlood flood-color="rgb(8,14,36)" result="ink"/>
+                <feMorphology in="SourceAlpha" operator="dilate" radius="0.5" result="s1"/>
+                <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="3" result="n1"/>
+                <feDisplacementMap in="s1" in2="n1" scale="1.0" xChannelSelector="R" yChannelSelector="G" result="d1"/>
+                <feGaussianBlur in="d1" stdDeviation="0.4" result="h1b"/>
+                <feOffset in="h1b" dx="0.4" dy="-0.2" result="h1a"/>
+                <feComposite in="ink" in2="h1a" operator="in" result="h1c"/>
+                <feComponentTransfer in="h1c" result="h1">
+                    <feFuncA type="linear" slope="0.25"/>
+                </feComponentTransfer>
+                <feMerge>
+                    <feMergeNode in="h1"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <filter id="ink-faint" x="-100%" y="-100%" width="300%" height="300%">
+                <feFlood flood-color="rgb(8,14,36)" result="ink"/>
+                <feMorphology in="SourceAlpha" operator="dilate" radius="1.2" result="s1"/>
+                <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" seed="2" result="n1"/>
+                <feDisplacementMap in="s1" in2="n1" scale="2.5" xChannelSelector="R" yChannelSelector="G" result="d1"/>
+                <feGaussianBlur in="d1" stdDeviation="1.0" result="h1b"/>
+                <feOffset in="h1b" dx="0.8" dy="-0.4" result="h1a"/>
+                <feComposite in="ink" in2="h1a" operator="in" result="h1c"/>
+                <feComponentTransfer in="h1c" result="h1">
+                    <feFuncA type="linear" slope="0.55"/>
+                </feComponentTransfer>
+                <feMorphology in="SourceAlpha" operator="dilate" radius="2.5" result="s2"/>
+                <feGaussianBlur in="s2" stdDeviation="3" result="h2b"/>
+                <feOffset in="h2b" dx="-1.6" dy="1.2" result="h2a"/>
+                <feComposite in="ink" in2="h2a" operator="in" result="h2c"/>
+                <feComponentTransfer in="h2c" result="h2">
+                    <feFuncA type="linear" slope="0.30"/>
+                </feComponentTransfer>
+                <feMerge>
+                    <feMergeNode in="h2"/>
+                    <feMergeNode in="h1"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <filter id="ink-mild" x="-100%" y="-100%" width="300%" height="300%">
+                <feFlood flood-color="rgb(8,14,36)" result="ink"/>
+                <feMorphology in="SourceAlpha" operator="dilate" radius="2.0" result="s1"/>
+                <feTurbulence type="fractalNoise" baseFrequency="0.45" numOctaves="2" seed="4" result="n1"/>
+                <feDisplacementMap in="s1" in2="n1" scale="4.5" xChannelSelector="R" yChannelSelector="G" result="d1"/>
+                <feGaussianBlur in="d1" stdDeviation="1.4" result="h1b"/>
+                <feOffset in="h1b" dx="-1.2" dy="0.6" result="h1a"/>
+                <feComposite in="ink" in2="h1a" operator="in" result="h1c"/>
+                <feComponentTransfer in="h1c" result="h1">
+                    <feFuncA type="linear" slope="0.70"/>
+                </feComponentTransfer>
+                <feMorphology in="SourceAlpha" operator="dilate" radius="4.5" result="s2"/>
+                <feGaussianBlur in="s2" stdDeviation="4.5" result="h2b"/>
+                <feOffset in="h2b" dx="2.5" dy="1.5" result="h2a"/>
+                <feComposite in="ink" in2="h2a" operator="in" result="h2c"/>
+                <feComponentTransfer in="h2c" result="h2">
+                    <feFuncA type="linear" slope="0.40"/>
+                </feComponentTransfer>
+                <feMerge>
+                    <feMergeNode in="h2"/>
+                    <feMergeNode in="h1"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <filter id="ink-medium" x="-120%" y="-120%" width="340%" height="340%">
+                <feFlood flood-color="rgb(8,14,36)" result="ink"/>
+                <feMorphology in="SourceAlpha" operator="dilate" radius="3.0" result="s1"/>
+                <feTurbulence type="fractalNoise" baseFrequency="0.35" numOctaves="3" seed="6" result="n1"/>
+                <feDisplacementMap in="s1" in2="n1" scale="7" xChannelSelector="R" yChannelSelector="G" result="d1"/>
+                <feGaussianBlur in="d1" stdDeviation="2.2" result="h1b"/>
+                <feOffset in="h1b" dx="1.8" dy="-1.0" result="h1a"/>
+                <feComposite in="ink" in2="h1a" operator="in" result="h1c"/>
+                <feComponentTransfer in="h1c" result="h1">
+                    <feFuncA type="linear" slope="0.85"/>
+                </feComponentTransfer>
+                <feMorphology in="SourceAlpha" operator="dilate" radius="7" result="s2"/>
+                <feGaussianBlur in="s2" stdDeviation="6.5" result="h2b"/>
+                <feOffset in="h2b" dx="-3.5" dy="2.5" result="h2a"/>
+                <feComposite in="ink" in2="h2a" operator="in" result="h2c"/>
+                <feComponentTransfer in="h2c" result="h2">
+                    <feFuncA type="linear" slope="0.50"/>
+                </feComponentTransfer>
+                <feMerge>
+                    <feMergeNode in="h2"/>
+                    <feMergeNode in="h1"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <filter id="ink-heavy" x="-140%" y="-140%" width="380%" height="380%">
+                <feFlood flood-color="rgb(8,14,36)" result="ink"/>
+                <feMorphology in="SourceAlpha" operator="dilate" radius="4.5" result="s1"/>
+                <feTurbulence type="fractalNoise" baseFrequency="0.28" numOctaves="3" seed="8" result="n1"/>
+                <feDisplacementMap in="s1" in2="n1" scale="11" xChannelSelector="R" yChannelSelector="G" result="d1"/>
+                <feGaussianBlur in="d1" stdDeviation="3.2" result="h1b"/>
+                <feOffset in="h1b" dx="-2.0" dy="1.4" result="h1a"/>
+                <feComposite in="ink" in2="h1a" operator="in" result="h1c"/>
+                <feComponentTransfer in="h1c" result="h1">
+                    <feFuncA type="linear" slope="0.95"/>
+                </feComponentTransfer>
+                <feMorphology in="SourceAlpha" operator="dilate" radius="10" result="s2"/>
+                <feGaussianBlur in="s2" stdDeviation="9" result="h2b"/>
+                <feOffset in="h2b" dx="4.5" dy="-3.0" result="h2a"/>
+                <feComposite in="ink" in2="h2a" operator="in" result="h2c"/>
+                <feComponentTransfer in="h2c" result="h2">
+                    <feFuncA type="linear" slope="0.60"/>
+                </feComponentTransfer>
+                <feMerge>
+                    <feMergeNode in="h2"/>
+                    <feMergeNode in="h1"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+        </defs>
+    </svg>
+
+    <main class="shop amalgam">
+        <section class="bed" id="bed">
+            <img class="bed-img" src="assets/processed/new bed 2.jpeg" alt="" aria-hidden="true">
+            <div class="bed-caption">Fig. 02 · Letterpress  ·  ‖Δ‖ accumulated residual change, layers 00–11</div>
+            <div class="form-area">
+                <div id="lockedType" class="locked-type"></div>
+                <div id="paperStack" class="paper-stack"></div>
+            </div>
+        </section>
+
+        <aside class="workspace">
+            <header class="workspace-header">
+                <div class="ws-meta">
+                    <span class="ws-eyebrow">Interpretative Interface № 02</span>
+                    <span class="ws-figno">GPT-2 · small</span>
+                </div>
+                <h1 class="ws-title">Letterpress<span class="ws-title-dot">.</span></h1>
+                <p class="ws-sub">Compose a line. Pull the lever. The press prints twelve sheets — one per transformer layer — each impressed in proportion to how much that layer rewrites the residual stream.</p>
+            </header>
+
+            <div class="ws-section ws-section--pool">
+                <div class="ws-label-row">
+                    <span class="ws-label">Tokens</span>
+                    <span class="ws-numeric">case</span>
+                </div>
+                <div class="token-pool" id="tokenPool"></div>
+            </div>
+
+            <div class="ws-section ws-section--stick">
+                <div class="ws-label-row">
+                    <span class="ws-label">Composing stick</span>
+                    <span class="ws-numeric">≤ 06</span>
+                </div>
+                <div class="composing-stick" id="composingStick">
+                    <img class="stick-img" src="assets/processed/composing_stick_empty.png" alt="" aria-hidden="true">
+                    <div class="stick-tray" id="stickTray"></div>
+                </div>
+            </div>
+
+            <div class="ws-section ws-section--lever">
+                <div class="ws-label-row">
+                    <span class="ws-label">Pull to print</span>
+                    <span class="ws-numeric">↓</span>
+                </div>
+                <button class="lever" id="leverBtn" type="button" aria-label="pull to print">
+                    <img class="lever-img" src="assets/processed/lever.png" alt="" aria-hidden="true">
+                </button>
+            </div>
+        </aside>
+    </main>
+
+    <!-- =========================================================
+         ONBOARDING — magazine opener card, blurred-prototype bg.
+         Click "Begin" (or the card) to fade out; reopenable via
+         the "About this interface" link in the workspace header.
+         ========================================================= -->
+    <div id="intro" class="intro is-open" aria-modal="true" role="dialog" aria-labelledby="intro-title">
+        <div class="intro-scrim" aria-hidden="true"></div>
+
+        <article class="intro-card">
+
+            <header class="intro-head">
+                <span class="intro-eyebrow">Interpretative Interface № 02</span>
+                <span class="intro-figno">GPT-2 · small  ·  ‖Δ‖</span>
+            </header>
+
+            <h1 id="intro-title" class="intro-title">
+                <span class="intro-title-line">Letter</span>
+                <span class="intro-title-line">press<span class="intro-title-dot">.</span></span>
+            </h1>
+
+            <p class="intro-lede">
+                A letterpress prints by stamping arranged type onto paper, one
+                impression at a time. This interface borrows that gesture to
+                make visible the work each layer of a transformer does as it
+                shapes a token.
+            </p>
+
+            <hr class="intro-rule">
+
+            <div class="intro-cols">
+
+                <section class="intro-col">
+                    <div class="intro-col-label">
+                        <span>The concept</span>
+                        <span class="intro-numeric">i.</span>
+                    </div>
+                    <h2 class="intro-h2">What is the residual stream?</h2>
+                    <p class="intro-body">
+                        Inside GPT-2, every token carries a long vector of
+                        numbers that gets revised as it passes through twelve
+                        transformer layers. Each layer reads the current vector,
+                        decides what to add, and writes a small update back.
+                        That running record is the <em>residual stream</em> —
+                        the trace of meaning under construction.
+                    </p>
+                    <p class="intro-body">
+                        We measure how much each layer rewrites the stream
+                        (‖Δ‖ — the magnitude of its update) and use that single
+                        number to drive how heavily that layer prints.
+                    </p>
+
+                    <!-- Tiny diagram: residual stream growing layer by layer -->
+                    <svg class="intro-diagram" viewBox="0 0 280 70" aria-hidden="true">
+                        <g fill="none" stroke="currentColor" stroke-width="1">
+                            <!-- baseline -->
+                            <line x1="10" y1="55" x2="270" y2="55" stroke-opacity="0.4"/>
+                            <!-- 12 layer ticks with growing bars -->
+                            <g>
+                                <rect x="14"  y="48" width="14" height="7"  fill="currentColor" fill-opacity="0.25"/>
+                                <rect x="34"  y="44" width="14" height="11" fill="currentColor" fill-opacity="0.35"/>
+                                <rect x="54"  y="38" width="14" height="17" fill="currentColor" fill-opacity="0.5"/>
+                                <rect x="74"  y="30" width="14" height="25" fill="currentColor" fill-opacity="0.65"/>
+                                <rect x="94"  y="22" width="14" height="33" fill="currentColor" fill-opacity="0.78"/>
+                                <rect x="114" y="16" width="14" height="39" fill="currentColor" fill-opacity="0.9"/>
+                                <rect x="134" y="18" width="14" height="37" fill="currentColor" fill-opacity="0.85"/>
+                                <rect x="154" y="24" width="14" height="31" fill="currentColor" fill-opacity="0.72"/>
+                                <rect x="174" y="28" width="14" height="27" fill="currentColor" fill-opacity="0.62"/>
+                                <rect x="194" y="26" width="14" height="29" fill="currentColor" fill-opacity="0.68"/>
+                                <rect x="214" y="22" width="14" height="33" fill="currentColor" fill-opacity="0.78"/>
+                                <rect x="234" y="18" width="14" height="37" fill="currentColor" fill-opacity="0.86"/>
+                            </g>
+                        </g>
+                        <text x="14"  y="68" font-family="IBM Plex Mono, monospace" font-size="7" fill="currentColor" fill-opacity="0.6">ℓ00</text>
+                        <text x="234" y="68" font-family="IBM Plex Mono, monospace" font-size="7" fill="currentColor" fill-opacity="0.6">ℓ11</text>
+                        <text x="120" y="68" font-family="IBM Plex Mono, monospace" font-size="7" fill="currentColor" fill-opacity="0.6">‖Δ‖ per layer</text>
+                    </svg>
+                </section>
+
+                <section class="intro-col">
+                    <div class="intro-col-label">
+                        <span>The interaction</span>
+                        <span class="intro-numeric">ii.</span>
+                    </div>
+                    <h2 class="intro-h2">What you will do</h2>
+
+                    <ol class="intro-steps">
+                        <li>
+                            <span class="intro-step-num">01</span>
+                            <span class="intro-step-body">
+                                <strong>Compose.</strong> Drag word-tokens from
+                                the case into the composing stick. Up to six.
+                            </span>
+                        </li>
+                        <li>
+                            <span class="intro-step-num">02</span>
+                            <span class="intro-step-body">
+                                <strong>Pull.</strong> Pull the lever. The form
+                                locks. The press fires once for every layer.
+                            </span>
+                        </li>
+                        <li>
+                            <span class="intro-step-num">03</span>
+                            <span class="intro-step-body">
+                                <strong>Read.</strong> Twelve sheets stack on
+                                the bed. Flip from the top down. Each
+                                impression's weight reflects how much that
+                                layer changed the residual stream.
+                            </span>
+                        </li>
+                    </ol>
+                </section>
+            </div>
+
+            <footer class="intro-foot">
+                <span class="intro-foot-caption">
+                    Swatchbook of tangible XAI prototypes · Spring 2026 ·
+                    CSE 494 / HCDE 599
+                </span>
+                <button id="introBegin" class="intro-begin" type="button">
+                    <span>Begin</span>
+                    <span class="intro-begin-arrow">→</span>
+                </button>
+            </footer>
+        </article>
+    </div>
+
+    <!-- "About this interface" — reopen the onboarding from the workspace -->
+    <button id="introReopen" class="intro-reopen" type="button" aria-label="About this interface">
+        <span class="intro-reopen-i">i</span>
+        <span class="intro-reopen-label">About this interface</span>
+    </button>
+
+    <script>
+        (() => {
+            const intro = document.getElementById('intro');
+            const beginBtn = document.getElementById('introBegin');
+            const reopenBtn = document.getElementById('introReopen');
+            const shop = document.querySelector('.shop');
+
+            const close = () => {
+                intro.classList.remove('is-open');
+                intro.classList.add('is-closing');
+                shop.classList.remove('is-blurred');
+                setTimeout(() => intro.classList.remove('is-closing'), 600);
+            };
+            const open = () => {
+                intro.classList.add('is-open');
+                shop.classList.add('is-blurred');
+            };
+
+            // Start blurred on first paint
+            shop.classList.add('is-blurred');
+
+            beginBtn.addEventListener('click', close);
+            reopenBtn.addEventListener('click', open);
+
+            // Esc closes; clicking the dark scrim around the card also closes
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && intro.classList.contains('is-open')) close();
+            });
+            intro.querySelector('.intro-scrim').addEventListener('click', close);
+        })();
+    </script>
+
+    <script src="app.js"></script>
+</body>
+</html>

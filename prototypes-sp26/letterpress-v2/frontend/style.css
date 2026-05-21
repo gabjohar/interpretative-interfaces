@@ -1,0 +1,837 @@
+/* =========================================================
+   Letterpress — Amalgam-register restyle.
+   The press (bed, stick, lever, type sorts) stays as the
+   warm artifact. The workspace and chrome go cold:
+   ink-black ground, Bodoni Moda italic display, Inter body,
+   hairline rules, generous negative space.
+   Tokens come from ../../shared/tokens.css.
+   ========================================================= */
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-body);
+}
+
+svg.defs { position: absolute; width: 0; height: 0; pointer-events: none; }
+
+/* Subtle film grain to keep the dark ground from feeling flat */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 300;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1 0.45' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0'/></filter><rect width='320' height='320' filter='url(%23n)'/></svg>");
+    opacity: 0.5;
+    mix-blend-mode: screen;
+}
+
+.shop {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    z-index: 1;
+}
+
+/* =========================================================
+   BED — left pane, warm artifact.
+   Photographic press image darkened and desaturated so it
+   reads as a single moody plate inside the black page.
+   ========================================================= */
+
+.bed {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 58vw;
+    height: 100%;
+    overflow: visible;
+    border-right: var(--hairline) solid var(--rule);
+}
+
+.bed-img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left top;
+    user-select: none;
+    pointer-events: none;
+    filter: saturate(0.35) brightness(0.62) contrast(1.12);
+}
+
+/* Figure caption under the bed — Amalgam-style */
+.bed-caption {
+    position: absolute;
+    left: var(--space-5);
+    bottom: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--type-caption);
+    letter-spacing: 0.16em;
+    color: var(--gray-30);
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 8;
+}
+
+.form-area {
+    position: absolute;
+    left: 27%;
+    top: 37.5%;
+    width: 28%;
+    height: 23%;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.locked-type {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    align-content: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    padding-right: 12px;
+    gap: 4px 0.5px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition:
+        opacity 900ms var(--ease-out),
+        transform 900ms var(--ease-out);
+    z-index: 5;
+}
+.locked-type.is-shown { opacity: 1; transform: translateY(0); }
+.locked-type .token {
+    position: relative;
+    flex: 0 0 auto;
+    flex-direction: row-reverse;
+}
+.locked-type .letter-sort { transform: scaleX(1) !important; }
+.locked-type .token.is-placeholder { visibility: hidden; pointer-events: none; }
+
+.paper-stack {
+    position: absolute;
+    left: 120%;
+    top: -50%;
+    width: 140%;
+    height: 150%;
+    z-index: 6;
+    pointer-events: none;
+    perspective: 2400px;
+}
+.paper-stack.is-active { pointer-events: auto; }
+
+/* =========================================================
+   WORKSPACE — right pane, cold Amalgam chrome.
+   Ink-black ground, hairline divisions, editorial type.
+   ========================================================= */
+
+.workspace {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 42vw;
+    min-width: 440px;
+    max-width: 620px;
+    background: var(--ink);
+    border-left: var(--hairline) solid var(--rule);
+    padding: var(--space-7) var(--space-6) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    z-index: 10;
+    overflow: visible;
+}
+
+/* Drop the warm paper texture + radial halo from v1 */
+.workspace::before,
+.workspace::after { content: none; }
+.workspace > * { position: relative; z-index: 2; }
+
+/* ---------- Header ---------- */
+.workspace-header {
+    flex: 0 0 auto;
+    padding-bottom: var(--space-4);
+    border-bottom: var(--hairline) solid var(--rule);
+}
+
+.ws-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--space-3);
+}
+
+.ws-eyebrow {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--type-eyebrow);
+    letter-spacing: var(--track-eyebrow);
+    text-transform: uppercase;
+    color: var(--gray-30);
+    margin: 0;
+}
+
+.ws-figno {
+    font-family: var(--font-mono);
+    font-size: var(--type-eyebrow);
+    letter-spacing: 0.08em;
+    color: var(--gray-50);
+    text-transform: uppercase;
+}
+
+.ws-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-style: italic;
+    font-size: var(--type-display);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--track-display);
+    margin: 0 0 var(--space-3);
+    color: var(--paper);
+    text-transform: none;
+}
+
+.ws-title-dot {
+    font-style: normal;
+    color: var(--gray-50);
+}
+
+.ws-sub {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: var(--type-body);
+    line-height: var(--leading-body);
+    color: var(--gray-30);
+    margin: 0;
+    max-width: 38ch;
+    letter-spacing: 0;
+}
+
+/* ---------- Sections ---------- */
+.ws-section { flex: 0 0 auto; }
+.ws-section--pool { flex: 2 1 auto; min-height: 190px; }
+.ws-section--stick { margin-top: var(--space-5); }
+.ws-section--lever { margin-top: var(--space-4); }
+
+.ws-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: var(--space-2);
+    margin-bottom: var(--space-3);
+    border-bottom: var(--hairline) solid var(--rule);
+}
+
+.ws-label {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--type-eyebrow);
+    letter-spacing: var(--track-eyebrow);
+    text-transform: uppercase;
+    color: var(--paper);
+}
+
+.ws-numeric {
+    font-family: var(--font-mono);
+    font-size: var(--type-eyebrow);
+    letter-spacing: 0.08em;
+    color: var(--gray-50);
+    text-transform: uppercase;
+}
+
+/* =========================================================
+   TOKENS — keep the photographic metal-type sorts but
+   reframe them. Drop the heavy warm drop-shadow so they
+   read as objects-in-a-gallery against the ink.
+   ========================================================= */
+
+.token-pool {
+    position: relative;
+    height: 100%;
+    min-height: 130px;
+    pointer-events: auto;
+}
+
+.token {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 2px;
+    cursor: grab;
+    user-select: none;
+    transition: transform 220ms var(--ease-out);
+    z-index: 10;
+    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.6));
+}
+.token:hover {
+    transform: translateY(-3px) rotate(var(--tilt-hover, -1deg));
+    z-index: 20;
+}
+.token.is-dragging {
+    cursor: grabbing;
+    z-index: 30;
+    transform: rotate(var(--tilt-drag, -3deg)) scale(1.05);
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7));
+}
+.token.is-placed {
+    opacity: 0.22;
+    pointer-events: none;
+    cursor: default;
+}
+
+.letter-sort {
+    display: block;
+    width: auto;
+    height: 35px;
+    transform: scaleX(-1);
+    pointer-events: none;
+    user-select: none;
+    filter: brightness(1.05) contrast(1.08);
+}
+
+/* =========================================================
+   COMPOSING STICK — kept photographic; reads as a found
+   object inside the editorial frame.
+   ========================================================= */
+
+.composing-stick {
+    position: relative;
+    width: 110%;
+    height: 210px;
+    transform-origin: 50% 50%;
+    transition: opacity 700ms var(--ease-out) 250ms;
+    z-index: 14;
+}
+.composing-stick.is-locking { pointer-events: none; }
+.composing-stick.is-locked { opacity: 0; }
+
+.stick-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    pointer-events: none;
+    filter: saturate(0.5) brightness(0.9) contrast(1.05);
+}
+
+.stick-tray {
+    position: absolute;
+    left: 34%;
+    top: 32.5%;
+    width: 100%;
+    max-width: 300px;
+    height: 35%;
+    display: flex;
+    align-items: center;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    overflow: visible;
+    gap: 4px 8px;
+    z-index: 16;
+}
+.stick-tray .token {
+    position: relative;
+    transform: none !important;
+    cursor: pointer;
+    filter: none;
+    padding: 0;
+    flex: 0 0 auto;
+}
+
+/* =========================================================
+   LEVER — kept as a photographic interactive element.
+   Desaturated to match the page.
+   ========================================================= */
+
+.lever {
+    width: 100%;
+    height: 220px;
+    max-height: 22vh;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transform-origin: 18% 42%;
+    transition: transform 480ms var(--ease-out);
+}
+.lever:hover { transform: rotate(-2deg); }
+.lever:active,
+.lever.is-pulling {
+    transform: rotate(28deg);
+    transition: transform 360ms cubic-bezier(0.45, 0, 0.65, 1);
+}
+.lever.is-released { animation: lever-spring 760ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+@keyframes lever-spring {
+    0%   { transform: rotate(28deg); }
+    55%  { transform: rotate(-3deg); }
+    100% { transform: rotate(0deg); }
+}
+.lever:disabled { cursor: not-allowed; opacity: 0.35; }
+.lever-img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    object-position: center;
+    filter: saturate(0.5) brightness(0.92) contrast(1.05);
+    pointer-events: none;
+}
+
+/* =========================================================
+   PRESS FLASH + SHEETS
+   ========================================================= */
+
+.bed.is-pressing::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(244, 241, 234, 0.08);
+    animation: press-flash 580ms ease-out;
+    pointer-events: none;
+    z-index: 8;
+}
+@keyframes press-flash {
+    0%   { opacity: 0; }
+    25%  { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.sheet {
+    position: absolute;
+    inset: 0;
+    pointer-events: auto;
+    cursor: pointer;
+}
+.sheet-flipper {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transform-origin: 0% 50%;
+    transform: rotateY(180deg);
+    transition: transform 1700ms var(--ease-out);
+}
+.sheet.is-revealed .sheet-flipper { transform: rotateY(0deg); }
+
+.sheet-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    background-image: url("assets/processed/Karjalan_taru._Orkesterille._Op._99_-_Alexandre_Glazounow-Légende_carélienne,_pour_orchestre._Op._99_-_bpt6k19116586_(100_of_106).jpg");
+    background-size: cover;
+    background-position: center;
+    filter: saturate(0.55) brightness(0.96);
+}
+.sheet-face--back  { transform: rotateY(180deg); }
+.sheet-face--front { transform: rotateY(0deg); }
+
+.sheet.is-discarded {
+    transform: translate(58vw, -14vh) rotate(22deg) !important;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        transform 950ms var(--ease-out),
+        opacity 800ms ease;
+}
+
+.imprint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    line-height: 1.05;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 36px;
+    letter-spacing: var(--track-display);
+    color: rgba(8, 14, 36, calc(var(--ink-alpha, 0.85) * 1.0));
+    text-shadow: none;
+}
+
+.imprint.bleed-trace  { filter: url(#ink-trace); }
+.imprint.bleed-faint  { filter: url(#ink-faint); }
+.imprint.bleed-mild   { filter: url(#ink-mild); }
+.imprint.bleed-medium { filter: url(#ink-medium); }
+.imprint.bleed-heavy  { filter: url(#ink-heavy); }
+
+.imprint-line {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    gap: 10px;
+}
+.imprint-word { display: inline-flex; align-items: baseline; }
+.imprint .ch {
+    display: inline-block;
+    transform: translate(var(--jx, 0), var(--jy, 0)) rotate(var(--rot, 0deg));
+}
+
+.sheet-caption {
+    position: absolute;
+    bottom: 12px;
+    left: 16px;
+    font-family: var(--font-mono);
+    font-size: var(--type-eyebrow);
+    letter-spacing: 0.18em;
+    color: var(--gray-50);
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
+*:focus { outline: none; }
+*:focus-visible { outline: 1px dashed var(--accent); outline-offset: 3px; }
+
+/* =========================================================
+   ONBOARDING — magazine-opener card over blurred prototype.
+   Inspired by Amalgam issue spreads: massive italic Didone
+   title, justified body in narrow columns, mono captions
+   and figure numbers, hairline rules, generous negative
+   space, one accent of warmth held in reserve.
+   ========================================================= */
+
+.shop {
+    transition: filter 600ms var(--ease-out),
+                transform 600ms var(--ease-out);
+}
+.shop.is-blurred {
+    filter: blur(14px) brightness(0.55) saturate(0.7);
+    transform: scale(1.02);
+}
+
+.intro {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 500ms var(--ease-out);
+    font-family: var(--font-body);
+    color: var(--paper);
+}
+.intro.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.intro-scrim {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.55) 70%),
+        rgba(10, 10, 10, 0.6);
+    cursor: pointer;
+}
+
+.intro-card {
+    position: relative;
+    z-index: 2;
+    width: min(960px, 92vw);
+    max-height: 92vh;
+    overflow: auto;
+    padding: var(--space-8) var(--space-8) var(--space-6);
+    background: var(--ink);
+    border: var(--hairline) solid var(--rule);
+    box-shadow:
+        0 40px 80px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+
+    transform: translateY(8px);
+    transition: transform 500ms var(--ease-out);
+}
+.intro.is-open .intro-card { transform: translateY(0); }
+
+/* Faint grain on the card itself so it doesn't read as plastic */
+.intro-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.05' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.04 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>");
+    opacity: 0.55;
+    mix-blend-mode: screen;
+}
+.intro-card > * { position: relative; z-index: 1; }
+
+/* ---------- Head ---------- */
+.intro-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: var(--space-4);
+    border-bottom: var(--hairline) solid var(--rule);
+}
+
+.intro-eyebrow {
+    font-family: var(--font-body);
+    font-size: var(--type-eyebrow);
+    letter-spacing: var(--track-eyebrow);
+    text-transform: uppercase;
+    color: var(--gray-30);
+}
+
+.intro-figno {
+    font-family: var(--font-mono);
+    font-size: var(--type-eyebrow);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray-50);
+}
+
+/* ---------- Title ---------- */
+.intro-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: var(--type-display-xl);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    margin: var(--space-6) 0 var(--space-5);
+    color: var(--paper);
+}
+.intro-title-line {
+    display: block;
+}
+.intro-title-dot {
+    font-style: normal;
+    color: var(--accent);
+}
+
+/* ---------- Lede ---------- */
+.intro-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.32;
+    color: var(--paper);
+    margin: 0 0 var(--space-5);
+    max-width: 56ch;
+}
+
+.intro-rule {
+    border: 0;
+    border-top: var(--hairline) solid var(--rule);
+    margin: var(--space-5) 0 var(--space-6);
+}
+
+/* ---------- Two-column body ---------- */
+.intro-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-7);
+}
+
+.intro-col-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: var(--space-2);
+    margin-bottom: var(--space-3);
+    border-bottom: var(--hairline) solid var(--rule);
+    font-family: var(--font-body);
+    font-size: var(--type-eyebrow);
+    letter-spacing: var(--track-eyebrow);
+    text-transform: uppercase;
+    color: var(--paper);
+}
+.intro-col-label .intro-numeric {
+    font-family: var(--font-mono);
+    color: var(--gray-50);
+    letter-spacing: 0.1em;
+}
+
+.intro-h2 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.15;
+    margin: 0 0 var(--space-3);
+    color: var(--paper);
+}
+
+.intro-body {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--gray-15);
+    margin: 0 0 var(--space-3);
+    max-width: 38ch;
+    hyphens: auto;
+}
+.intro-body em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--paper);
+}
+
+.intro-diagram {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    margin-top: var(--space-4);
+    color: var(--paper);
+}
+
+/* ---------- Steps ---------- */
+.intro-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+.intro-steps li {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: var(--space-3);
+    align-items: baseline;
+    padding-top: var(--space-3);
+    border-top: var(--hairline) solid var(--rule);
+}
+.intro-steps li:first-child {
+    padding-top: 0;
+    border-top: 0;
+}
+.intro-step-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--gray-50);
+}
+.intro-step-body {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--gray-15);
+}
+.intro-step-body strong {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--paper);
+    margin-right: 4px;
+}
+
+/* ---------- Foot ---------- */
+.intro-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-5);
+    margin-top: var(--space-7);
+    padding-top: var(--space-4);
+    border-top: var(--hairline) solid var(--rule);
+}
+
+.intro-foot-caption {
+    font-family: var(--font-mono);
+    font-size: var(--type-caption);
+    letter-spacing: 0.08em;
+    color: var(--gray-50);
+    text-transform: uppercase;
+    max-width: 44ch;
+    line-height: 1.5;
+}
+
+.intro-begin {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-5);
+    background: var(--paper);
+    color: var(--ink);
+    border: var(--hairline) solid var(--paper);
+    font-family: var(--font-body);
+    font-size: var(--type-eyebrow);
+    letter-spacing: var(--track-eyebrow);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+        background var(--dur-fast) var(--ease-out),
+        color var(--dur-fast) var(--ease-out),
+        transform var(--dur-fast) var(--ease-out);
+}
+.intro-begin:hover {
+    background: var(--accent);
+    color: var(--paper);
+    border-color: var(--accent);
+    transform: translateX(2px);
+}
+.intro-begin-arrow { font-family: var(--font-mono); }
+
+/* =========================================================
+   REOPEN BUTTON — a tiny ⓘ pinned to the top-right of the
+   workspace, only meaningful once the intro is dismissed.
+   ========================================================= */
+.intro-reopen {
+    position: fixed;
+    top: var(--space-4);
+    right: var(--space-4);
+    z-index: 50;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 6px 10px;
+    background: transparent;
+    color: var(--gray-30);
+    border: var(--hairline) solid var(--rule);
+    font-family: var(--font-body);
+    font-size: var(--type-eyebrow);
+    letter-spacing: var(--track-eyebrow);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+        color var(--dur-fast) var(--ease-out),
+        border-color var(--dur-fast) var(--ease-out);
+}
+.intro-reopen:hover {
+    color: var(--paper);
+    border-color: var(--paper);
+}
+.intro-reopen-i {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1;
+}
+
+/* Narrow screens — stack columns, shrink type */
+@media (max-width: 720px) {
+    .intro-card { padding: var(--space-6) var(--space-5); }
+    .intro-title { font-size: clamp(56px, 16vw, 88px); }
+    .intro-cols { grid-template-columns: 1fr; gap: var(--space-5); }
+    .intro-foot { flex-direction: column; align-items: stretch; }
+}

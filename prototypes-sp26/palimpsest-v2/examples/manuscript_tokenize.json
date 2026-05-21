@@ -1,0 +1,169 @@
+{
+  "tokens": [
+    {
+      "index": 0,
+      "token_id": 50256,
+      "token_str": "<|endoftext|>"
+    },
+    {
+      "index": 1,
+      "token_id": 464,
+      "token_str": "The"
+    },
+    {
+      "index": 2,
+      "token_id": 1468,
+      "token_str": " old"
+    },
+    {
+      "index": 3,
+      "token_id": 17116,
+      "token_str": " manuscript"
+    },
+    {
+      "index": 4,
+      "token_id": 11,
+      "token_str": ","
+    },
+    {
+      "index": 5,
+      "token_id": 15881,
+      "token_str": " scrap"
+    },
+    {
+      "index": 6,
+      "token_id": 276,
+      "token_str": "ed"
+    },
+    {
+      "index": 7,
+      "token_id": 290,
+      "token_str": " and"
+    },
+    {
+      "index": 8,
+      "token_id": 30101,
+      "token_str": " rewritten"
+    },
+    {
+      "index": 9,
+      "token_id": 1973,
+      "token_str": " across"
+    },
+    {
+      "index": 10,
+      "token_id": 10675,
+      "token_str": " centuries"
+    },
+    {
+      "index": 11,
+      "token_id": 416,
+      "token_str": " by"
+    },
+    {
+      "index": 12,
+      "token_id": 2832,
+      "token_str": " hands"
+    },
+    {
+      "index": 13,
+      "token_id": 3025,
+      "token_str": " whose"
+    },
+    {
+      "index": 14,
+      "token_id": 3891,
+      "token_str": " names"
+    },
+    {
+      "index": 15,
+      "token_id": 389,
+      "token_str": " are"
+    },
+    {
+      "index": 16,
+      "token_id": 645,
+      "token_str": " no"
+    },
+    {
+      "index": 17,
+      "token_id": 2392,
+      "token_str": " longer"
+    },
+    {
+      "index": 18,
+      "token_id": 1232,
+      "token_str": " leg"
+    },
+    {
+      "index": 19,
+      "token_id": 856,
+      "token_str": "ible"
+    },
+    {
+      "index": 20,
+      "token_id": 11,
+      "token_str": ","
+    },
+    {
+      "index": 21,
+      "token_id": 991,
+      "token_str": " still"
+    },
+    {
+      "index": 22,
+      "token_id": 10069,
+      "token_str": " reveals"
+    },
+    {
+      "index": 23,
+      "token_id": 11,
+      "token_str": ","
+    },
+    {
+      "index": 24,
+      "token_id": 11061,
+      "token_str": " beneath"
+    },
+    {
+      "index": 25,
+      "token_id": 663,
+      "token_str": " its"
+    },
+    {
+      "index": 26,
+      "token_id": 4417,
+      "token_str": " surface"
+    },
+    {
+      "index": 27,
+      "token_id": 11,
+      "token_str": ","
+    },
+    {
+      "index": 28,
+      "token_id": 262,
+      "token_str": " the"
+    },
+    {
+      "index": 29,
+      "token_id": 18107,
+      "token_str": " faint"
+    },
+    {
+      "index": 30,
+      "token_id": 20675,
+      "token_str": " traces"
+    },
+    {
+      "index": 31,
+      "token_id": 286,
+      "token_str": " of"
+    },
+    {
+      "index": 32,
+      "token_id": 257,
+      "token_str": " a"
+    }
+  ]
+}
