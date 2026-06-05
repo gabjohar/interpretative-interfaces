@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Halftone Hidden-State Prints</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="page" id="page">
+        <span class="crop-mark crop-tl"></span>
+        <span class="crop-mark crop-tr"></span>
+        <span class="crop-mark crop-bl"></span>
+        <span class="crop-mark crop-br"></span>
+
+        <header class="masthead">
+            <h1 class="title">Halftone Hidden&#8209;State Prints</h1>
+            <p class="masthead-desc">
+                Halftone plates of GPT&#8209;2 small&rsquo;s residual stream &mdash;
+                one prints where states travel between layers,
+                the other where they cluster across the network.
+                Enter text below and press <em>print</em>;
+                hover any print to surface a token&#8209;layer point.
+            </p>
+        </header>
+
+        <section class="specimen-strip">
+            <div class="specimen-text">
+                <span class="section-label">specimen text</span>
+                <textarea id="textInput" class="text-input" spellcheck="false"></textarea>
+            </div>
+            <div class="specimen-action">
+                <button id="produceBtn" class="produce-btn" type="button">print</button>
+            </div>
+        </section>
+
+        <section class="plates">
+            <figure class="plate plate-pca">
+                <div class="plate-frame">
+                    <span class="reg-cross reg-tl">&plus;</span>
+                    <span class="reg-cross reg-tr">&plus;</span>
+                    <span class="reg-cross reg-bl">&plus;</span>
+                    <span class="reg-cross reg-br">&plus;</span>
+                    <canvas id="pcaCanvas" class="halftone-canvas halftone-view" width="800" height="800"></canvas>
+                    <canvas id="pcaTraceCanvas" class="halftone-canvas trace-view" width="800" height="800"></canvas>
+                </div>
+                <figcaption class="plate-caption">
+                    <span class="fig-mark">Fig.&nbsp;1</span>
+                    <span class="plate-desc">where hidden states travel between layers</span>
+                    <span class="view-toggle" role="group" aria-label="view">
+                        <button class="view-toggle-opt is-active" data-view="plate" type="button">plate</button>
+                        <span class="view-toggle-sep" aria-hidden="true">/</span>
+                        <button class="view-toggle-opt" data-view="trace" type="button">trace</button>
+                        <span class="view-toggle-sep" aria-hidden="true">/</span>
+                        <button class="view-toggle-opt" data-view="overprint" type="button">overprint</button>
+                    </span>
+                </figcaption>
+            </figure>
+
+            <figure class="plate plate-umap">
+                <div class="plate-frame">
+                    <span class="reg-cross reg-tl">&plus;</span>
+                    <span class="reg-cross reg-tr">&plus;</span>
+                    <span class="reg-cross reg-bl">&plus;</span>
+                    <span class="reg-cross reg-br">&plus;</span>
+                    <canvas id="umapCanvas" class="halftone-canvas halftone-view" width="800" height="800"></canvas>
+                    <canvas id="umapTraceCanvas" class="halftone-canvas trace-view" width="800" height="800"></canvas>
+                </div>
+                <figcaption class="plate-caption">
+                    <span class="fig-mark">Fig.&nbsp;2</span>
+                    <span class="plate-desc">where hidden states cluster across the network</span>
+                    <span class="view-toggle" role="group" aria-label="view">
+                        <button class="view-toggle-opt is-active" data-view="plate" type="button">plate</button>
+                        <span class="view-toggle-sep" aria-hidden="true">/</span>
+                        <button class="view-toggle-opt" data-view="trace" type="button">trace</button>
+                        <span class="view-toggle-sep" aria-hidden="true">/</span>
+                        <button class="view-toggle-opt" data-view="overprint" type="button">overprint</button>
+                    </span>
+                </figcaption>
+            </figure>
+        </section>
+
+        <footer class="color-bar">
+            <span class="ink-pair">
+                <span class="swatch swatch-pca"></span>
+                <span class="ink-label">movement</span>
+            </span>
+            <span class="ink-pair">
+                <span class="swatch swatch-umap"></span>
+                <span class="ink-label">clustering</span>
+            </span>
+            <span class="bar-rule"></span>
+            <span class="bar-meta">hidden&#8209;state print</span>
+        </footer>
+
+        <div id="tooltip" class="tooltip" role="tooltip"></div>
+    </main>
+
+    <div id="intro" class="intro is-open" aria-modal="true" role="dialog" aria-labelledby="intro-title">
+        <div class="intro-scrim" aria-hidden="true"></div>
+        <article class="intro-card">
+            <span class="intro-crop intro-crop-tl"></span>
+            <span class="intro-crop intro-crop-tr"></span>
+            <span class="intro-crop intro-crop-bl"></span>
+            <span class="intro-crop intro-crop-br"></span>
+
+            <header class="intro-head">
+                <span class="intro-eyebrow">Interpretative Interface No. 04</span>
+                <span class="intro-figno">GPT&#8209;2 small &middot; PCA + UMAP</span>
+            </header>
+
+            <h1 id="intro-title" class="intro-title">Halftone<span class="intro-title-dot">.</span></h1>
+
+            <p class="intro-lede">
+                Halftone print reproduces continuous tone by translating smooth gradients into a
+                field of dots &mdash; small marks for light areas, larger marks for dark
+                ones. This interface borrows that logic for a different kind of continuous concept:
+                the high-dimensional space of GPT&#8209;2&rsquo;s residual vectors. Since those
+                768-dimensional vectors cannot be seen directly, the prototype first flattens them
+                into two-dimensional projections, then turns their movement and clustering into
+                halftone fields. What appears as a printed pattern is therefore a compressed trace
+                of how hidden states travel, gather, and change across the network.
+            </p>
+
+            <hr class="intro-rule">
+
+            <div class="intro-cols">
+                <section class="intro-col">
+                    <div class="intro-col-label">
+                        <span>The concept</span>
+                    </div>
+                    <h2 class="intro-h2">What is the projected residual stream?</h2>
+                    <p class="intro-body">
+                        Inside GPT&#8209;2, every token carries a 768-dimensional vector that gets
+                        revised as it passes through twelve transformer layers. Each layer reads
+                        the current vector, decides what to add, and writes a small update back.
+                        Stacking those vectors gives every token a trajectory through a very
+                        high-dimensional space &mdash; far too many dimensions to look at directly.
+                    </p>
+                    <p class="intro-body">
+                        We compress those trajectories down to two dimensions, using two
+                        different methods. <em>PCA</em> finds the directions where the collected
+                        vectors vary the most and projects everything into that shared 2D space,
+                        making it useful for seeing broad movement between layers. <em>UMAP</em>
+                        builds another shared 2D layout that tries to keep nearby states close
+                        together, making it useful for seeing where residual states cluster.
+                    </p>
+                    <p class="intro-body">
+                        A halftone field then samples each projection on a regular grid. At each
+                        grid position, the prototype estimates what is happening nearby &mdash; for
+                        PCA, the average layer-to-layer movement and the direction it&rsquo;s
+                        heading; for UMAP, the local density of projected states. The result is
+                        not the 768-dimensional vector itself but a printed surface made from its
+                        projected motion and density.
+                    </p>
+                </section>
+
+                <section class="intro-col">
+                    <div class="intro-col-label">
+                        <span>The interaction</span>
+                    </div>
+                    <h2 class="intro-h2">What you will do</h2>
+                    <ol class="intro-steps">
+                        <li>
+                            <span class="intro-step-num">01</span>
+                            <span class="intro-step-body">
+                                <strong>Enter.</strong> A short poem is preset in the specimen text, but you can replace
+                                it with your own input.
+                            </span>
+                        </li>
+                        <li>
+                            <span class="intro-step-num">02</span>
+                            <span class="intro-step-body">
+                                <strong>Print.</strong> Press the print button. The backend tokenizes
+                                the text, runs GPT&#8209;2 small on it, collects every token&rsquo;s
+                                residual vector at every layer, projects them down with PCA and with
+                                UMAP, and returns the two flat fields for the page to print.
+                            </span>
+                        </li>
+                        <li>
+                            <span class="intro-step-num">03</span>
+                            <span class="intro-step-body">
+                                <strong>Read.</strong> The left plate shows movement: each ellipse
+                                points along the local direction of trajectory flow, and its size
+                                grows with how far hidden states travel through that region. The
+                                right plate shows clustering: large dots where many projected states
+                                gather, small dots where the projection is sparse. Hover any mark to see
+                                the nearest token-layer state.
+                            </span>
+                        </li>
+                        <li>
+                            <span class="intro-step-num">04</span>
+                            <span class="intro-step-body">
+                                <strong>Toggle.</strong> Beside each plate&rsquo;s caption is a
+                                small <em>plate / trace / overprint</em> switch. Plate shows the
+                                halftone, trace replaces it with the underlying token trajectories
+                                &mdash; one colored polyline per token, threaded through twelve
+                                layers, with a dot at each layer, and overprint stacks the
+                                trace on top of the halftone for direct comparison.
+                            </span>
+                        </li>
+                    </ol>
+                </section>
+            </div>
+
+            <footer class="intro-foot">
+                <span class="intro-foot-caption">
+                    Swatchbook of tangible XAI prototypes &middot; Spring 2026 &middot;
+                    CSE 494 / HCDE 599
+                </span>
+                <button id="introBegin" class="intro-begin" type="button">
+                    <span>Begin</span>
+                    <span class="intro-begin-arrow">&rarr;</span>
+                </button>
+            </footer>
+        </article>
+    </div>
+
+    <button id="introReopen" class="intro-reopen" type="button" aria-label="About this interface">
+        <span class="intro-reopen-i">i</span>
+    </button>
+
+    <script src="app.js"></script>
+    <script>
+        (() => {
+            const intro = document.getElementById('intro');
+            const beginBtn = document.getElementById('introBegin');
+            const reopenBtn = document.getElementById('introReopen');
+            const page = document.getElementById('page');
+            const close = () => {
+                intro.classList.remove('is-open');
+                page.classList.remove('is-blurred');
+            };
+            const open = () => {
+                intro.classList.add('is-open');
+                page.classList.add('is-blurred');
+            };
+            page.classList.add('is-blurred');
+            beginBtn.addEventListener('click', close);
+            reopenBtn.addEventListener('click', open);
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && intro.classList.contains('is-open')) close();
+            });
+            intro.querySelector('.intro-scrim').addEventListener('click', close);
+        })();
+    </script>
+</body>
+</html>
