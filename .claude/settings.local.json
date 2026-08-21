@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir backend:*)",
+      "Bash(git mv:*)",
+      "Bash(wc -l /Users/gabriellebenabdallah/Documents/GitHub/interpretative-interfaces/backend/*.py)",
+      "Bash(cp \"/Users/gabriellebenabdallah/Desktop/Screenshot 2026-05-15 at 1.52.50 PM \\(2\\).png\" /tmp/amalgam3.png)",
+      "Read(//tmp/**)",
+      "Bash(xxd)",
+      "Bash(cp -R /Users/gabriellebenabdallah/Documents/GitHub/interpretative-interfaces/prototypes-sp26/letterpress /Users/gabriellebenabdallah/Documents/GitHub/interpretative-interfaces/prototypes-sp26/letterpress-v2)",
+      "Bash(cp -R /Users/gabriellebenabdallah/Documents/GitHub/interpretative-interfaces/prototypes-sp26/palimpsest /Users/gabriellebenabdallah/Documents/GitHub/interpretative-interfaces/prototypes-sp26/palimpsest-v2)"
+    ]
+  }
+}
